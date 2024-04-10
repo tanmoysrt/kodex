@@ -1,0 +1,157 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-04-11 01:54:32.022663",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "exam_info_section",
+  "exam_name",
+  "description",
+  "login_session_info_section",
+  "start_time",
+  "end_time",
+  "column_break_qdib",
+  "login_window_minutes",
+  "proctoring_config_section",
+  "full_screen_mode",
+  "watermark_candidate_id",
+  "lock_exam_on_focus_lose",
+  "column_break_shkq",
+  "copy_paste_disabled",
+  "right_click_disabled",
+  "column_break_aclc",
+  "video_proctoring",
+  "no_of_pictures_per_minute"
+ ],
+ "fields": [
+  {
+   "fieldname": "exam_info_section",
+   "fieldtype": "Section Break",
+   "label": "Exam Info"
+  },
+  {
+   "fieldname": "exam_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Exam Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Markdown Editor",
+   "in_list_view": 1,
+   "label": "Description",
+   "reqd": 1
+  },
+  {
+   "fieldname": "login_session_info_section",
+   "fieldtype": "Section Break",
+   "label": "Login Session Info"
+  },
+  {
+   "fieldname": "start_time",
+   "fieldtype": "Datetime",
+   "label": "Start Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "end_time",
+   "fieldtype": "Datetime",
+   "label": "End Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_qdib",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "login_window_minutes",
+   "fieldtype": "Int",
+   "label": "Login Window (Minutes)",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "proctoring_config_section",
+   "fieldtype": "Section Break",
+   "label": "Proctoring Config"
+  },
+  {
+   "default": "0",
+   "fieldname": "full_screen_mode",
+   "fieldtype": "Check",
+   "label": "Full Screen Mode"
+  },
+  {
+   "default": "0",
+   "fieldname": "watermark_candidate_id",
+   "fieldtype": "Check",
+   "label": "Watermark Candidate ID"
+  },
+  {
+   "fieldname": "column_break_shkq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "copy_paste_disabled",
+   "fieldtype": "Check",
+   "label": "Copy Paste Disabled"
+  },
+  {
+   "default": "0",
+   "fieldname": "right_click_disabled",
+   "fieldtype": "Check",
+   "label": "Right Click Disabled"
+  },
+  {
+   "default": "0",
+   "fieldname": "video_proctoring",
+   "fieldtype": "Check",
+   "label": "Video Proctoring"
+  },
+  {
+   "fieldname": "column_break_aclc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "6",
+   "fieldname": "no_of_pictures_per_minute",
+   "fieldtype": "Int",
+   "label": "No of pictures per minute",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "lock_exam_on_focus_lose",
+   "fieldtype": "Check",
+   "label": "Lock exam on focus lose"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-11 02:45:17.413018",
+ "modified_by": "Administrator",
+ "module": "Kodex",
+ "name": "Examination",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
