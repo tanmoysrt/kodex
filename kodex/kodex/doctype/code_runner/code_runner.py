@@ -16,9 +16,6 @@ class CodeRunner(Document):
 			self.status = "failed"
 			self.judge0_submission_id = ""
 
-
-
-
 def check_code_submission_results():
 	submitted_codes = frappe.get_list("Code Runner", fields=["name", "judge0_submission_id"], filters={"status": "submitted"})
 	for code in submitted_codes:
