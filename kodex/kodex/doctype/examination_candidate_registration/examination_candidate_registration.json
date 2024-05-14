@@ -7,8 +7,6 @@
  "field_order": [
   "examination",
   "candidate",
-  "section_break_malw",
-  "amended_from",
   "result_tab",
   "graded",
   "column_break_xfiy",
@@ -16,20 +14,6 @@
   "total_marks"
  ],
  "fields": [
-  {
-   "fieldname": "section_break_malw",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Examination Candidate",
-   "print_hide": 1,
-   "read_only": 1,
-   "search_index": 1
-  },
   {
    "fieldname": "examination",
    "fieldtype": "Link",
@@ -66,19 +50,20 @@
    "fieldname": "gained_marks",
    "fieldtype": "Float",
    "label": "Gained Marks",
+   "non_negative": 1,
    "read_only": 1
   },
   {
    "fieldname": "total_marks",
    "fieldtype": "Int",
    "label": "Total Marks",
+   "non_negative": 1,
    "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
- "is_submittable": 1,
  "links": [],
- "modified": "2024-04-19 10:01:03.506109",
+ "modified": "2024-05-14 23:42:52.745309",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Candidate Registration",
@@ -94,7 +79,6 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
-   "submit": 1,
    "write": 1
   }
  ],
