@@ -9,9 +9,11 @@
  "field_order": [
   "info_section",
   "type",
-  "description",
+  "column_break_lrdc",
   "marks",
-  "mcq_question_details_tab",
+  "section_break_iqzn",
+  "description",
+  "mcq_question_tab",
   "mcq_question_choices",
   "textual_question_tab",
   "auto_grade_based_on_exact_matching",
@@ -19,7 +21,7 @@
   "section_break_mizh",
   "auto_grade_based_on_keyword_matching",
   "keywords_for_textual_question_answer",
-  "code_question_details_tab",
+  "code_question_tab",
   "code_question_testset",
   "available_languages"
  ],
@@ -36,16 +38,6 @@
    "label": "Type",
    "options": "mcq\ntext\ncoding",
    "reqd": 1
-  },
-  {
-   "fieldname": "mcq_question_details_tab",
-   "fieldtype": "Tab Break",
-   "label": "MCQ Question Details"
-  },
-  {
-   "fieldname": "textual_question_tab",
-   "fieldtype": "Tab Break",
-   "label": "Textual Question"
   },
   {
    "default": "0",
@@ -84,11 +76,6 @@
    "options": "MCQ Question Choice"
   },
   {
-   "fieldname": "code_question_details_tab",
-   "fieldtype": "Tab Break",
-   "label": "Code Question Details"
-  },
-  {
    "fieldname": "code_question_testset",
    "fieldtype": "Table",
    "label": "Code Question Testset",
@@ -111,11 +98,37 @@
    "fieldtype": "Table",
    "label": "Keywords for Textual Question Answer",
    "options": "Textual Question Keyword"
+  },
+  {
+   "depends_on": "eval:doc.type === 'mcq'",
+   "fieldname": "mcq_question_tab",
+   "fieldtype": "Tab Break",
+   "label": "MCQ Question"
+  },
+  {
+   "depends_on": "eval:doc.type === 'coding'",
+   "fieldname": "code_question_tab",
+   "fieldtype": "Tab Break",
+   "label": "Code Question"
+  },
+  {
+   "fieldname": "column_break_lrdc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_iqzn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.type === 'text'",
+   "fieldname": "textual_question_tab",
+   "fieldtype": "Tab Break",
+   "label": "Textual Question"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-15 01:46:29.951044",
+ "modified": "2024-05-15 02:18:46.858760",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Question",

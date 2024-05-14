@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "EQP-.#####",
  "creation": "2024-04-19 09:07:09.100759",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -33,10 +34,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-19 09:09:41.699846",
+ "modified": "2024-05-15 02:10:21.248104",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Question Mapping",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {

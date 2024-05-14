@@ -1,8 +1,7 @@
 // Copyright (c) 2024, tanmoysrt and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("Question", {
-// 	refresh(frm) {
-
-// 	},
-// });
+// frappe.ui.form.on('Question', {
+//     type: function(frm) {
+//     }
+// })

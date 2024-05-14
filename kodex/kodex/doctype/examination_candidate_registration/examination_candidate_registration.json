@@ -92,8 +92,13 @@
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2024-05-15 00:58:27.645656",
+ "links": [
+  {
+   "link_doctype": "Examination Question Attempt",
+   "link_fieldname": "examination_candidate_registration"
+  }
+ ],
+ "modified": "2024-05-15 02:24:29.518270",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Candidate Registration",
