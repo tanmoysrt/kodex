@@ -5,18 +5,21 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_gnwq"
+  "judge0_base_url"
  ],
  "fields": [
   {
-   "fieldname": "section_break_gnwq",
-   "fieldtype": "Section Break"
+   "fieldname": "judge0_base_url",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Judge0 Base URL",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-04-11 01:41:55.477102",
+ "modified": "2024-05-14 21:40:32.059350",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Kodex Settings",

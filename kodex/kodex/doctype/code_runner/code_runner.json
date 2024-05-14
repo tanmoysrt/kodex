@@ -1,0 +1,147 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-14 19:13:07.612799",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "judge0_language_id",
+  "status",
+  "judge0_submission_id",
+  "column_break_bfuu",
+  "time_second",
+  "memory_kb",
+  "section_break_iwet",
+  "code",
+  "input",
+  "output",
+  "error",
+  "compile_output",
+  "for_debug_section",
+  "debug_judge0_status_id",
+  "column_break_jmdz",
+  "debug_judge0_status_description"
+ ],
+ "fields": [
+  {
+   "fieldname": "code",
+   "fieldtype": "Code",
+   "label": "Code",
+   "reqd": 1
+  },
+  {
+   "default": "submitted",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "submitted\nfailed\ncompleted",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_bfuu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_iwet",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "input",
+   "fieldtype": "Small Text",
+   "label": "Input",
+   "not_nullable": 1
+  },
+  {
+   "fieldname": "output",
+   "fieldtype": "Small Text",
+   "label": "Output",
+   "not_nullable": 1
+  },
+  {
+   "fieldname": "error",
+   "fieldtype": "Small Text",
+   "label": "Error",
+   "not_nullable": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "time_second",
+   "fieldtype": "Float",
+   "label": "Time (second)",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "memory_kb",
+   "fieldtype": "Int",
+   "label": "Memory (kb)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "compile_output",
+   "fieldtype": "Small Text",
+   "label": "Compile Output",
+   "not_nullable": 1
+  },
+  {
+   "fieldname": "for_debug_section",
+   "fieldtype": "Section Break",
+   "label": "For Debug"
+  },
+  {
+   "fieldname": "column_break_jmdz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "judge0_submission_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Judge0 Submission ID",
+   "not_nullable": 1
+  },
+  {
+   "fieldname": "judge0_language_id",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Judge0 Language ID"
+  },
+  {
+   "default": "-1",
+   "fieldname": "debug_judge0_status_id",
+   "fieldtype": "Int",
+   "label": "Judge0 Status ID"
+  },
+  {
+   "fieldname": "debug_judge0_status_description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Judge0 Status Description",
+   "not_nullable": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-05-14 23:16:51.710667",
+ "modified_by": "Administrator",
+ "module": "Kodex",
+ "name": "Code Runner",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

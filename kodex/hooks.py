@@ -133,23 +133,13 @@ app_license = "apache-2.0"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"kodex.tasks.all"
-# 	],
-# 	"daily": [
-# 		"kodex.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"kodex.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"kodex.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"kodex.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"cron": {
+		"* * * * * 0/5" : [
+			"kodex.kodex.doctype.code_runner.code_runner.check_code_submission_results"
+		]
+	}
+}
 
 # Testing
 # -------

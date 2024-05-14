@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestQuestionAttempt(FrappeTestCase):
+class TestCodingLanguage(FrappeTestCase):
 	pass

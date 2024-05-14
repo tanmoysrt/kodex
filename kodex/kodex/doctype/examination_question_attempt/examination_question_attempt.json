@@ -6,11 +6,10 @@
  "engine": "InnoDB",
  "field_order": [
   "question",
-  "examination_candidate",
+  "examination_candidate_registration",
   "submitted_answer",
   "marks",
   "correct_answer",
-  "status",
   "code_related_section",
   "submission_id"
  ],
@@ -21,14 +20,6 @@
    "in_list_view": 1,
    "label": "Question",
    "options": "Question",
-   "reqd": 1
-  },
-  {
-   "fieldname": "examination_candidate",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Examination Candidate",
-   "options": "Examination Candidate",
    "reqd": 1
   },
   {
@@ -60,18 +51,20 @@
    "label": "Correct Answer"
   },
   {
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "label": "Status",
-   "options": "running\nsubmitted"
+   "fieldname": "examination_candidate_registration",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Examination Candidate Registration",
+   "options": "Examination Candidate Registration",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-19 11:31:14.168760",
+ "modified": "2024-05-14 18:56:13.250352",
  "modified_by": "Administrator",
  "module": "Kodex",
- "name": "Question Attempt",
+ "name": "Examination Question Attempt",
  "owner": "Administrator",
  "permissions": [
   {

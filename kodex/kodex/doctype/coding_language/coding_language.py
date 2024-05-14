@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class QuestionAttempt(Document):
+class CodingLanguage(Document):
 	pass

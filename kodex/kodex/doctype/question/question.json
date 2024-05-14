@@ -21,7 +21,8 @@
   "auto_grade_based_on_keyword_matching",
   "keywords_for_textual_question_answer_seperated_by_commas",
   "code_question_details_tab",
-  "code_question_testset"
+  "code_question_testset",
+  "available_languages"
  ],
  "fields": [
   {
@@ -105,18 +106,26 @@
    "fieldname": "code_question_testset",
    "fieldtype": "Table",
    "label": "Code Question Testset",
-   "options": "Code Question Test"
+   "options": "Code Question Test",
+   "reqd": 1
   },
   {
    "fieldname": "description",
    "fieldtype": "Markdown Editor",
    "label": "Description",
    "reqd": 1
+  },
+  {
+   "fieldname": "available_languages",
+   "fieldtype": "Table",
+   "label": "Available Languages",
+   "options": "Available Coding Language",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-19 09:00:06.215076",
+ "modified": "2024-05-14 21:37:02.351334",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Question",
