@@ -10,11 +10,6 @@
   "description",
   "total_marks",
   "total_questions",
-  "login_session_info_section",
-  "start_time",
-  "end_time",
-  "column_break_qdib",
-  "login_window_minutes",
   "proctoring_config_section",
   "full_screen_mode",
   "watermark_candidate_id",
@@ -44,34 +39,6 @@
    "fieldtype": "Markdown Editor",
    "in_list_view": 1,
    "label": "Description",
-   "reqd": 1
-  },
-  {
-   "fieldname": "login_session_info_section",
-   "fieldtype": "Section Break",
-   "label": "Login Session Info"
-  },
-  {
-   "fieldname": "start_time",
-   "fieldtype": "Datetime",
-   "label": "Start Time",
-   "reqd": 1
-  },
-  {
-   "fieldname": "end_time",
-   "fieldtype": "Datetime",
-   "label": "End Time",
-   "reqd": 1
-  },
-  {
-   "fieldname": "column_break_qdib",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "login_window_minutes",
-   "fieldtype": "Int",
-   "label": "Login Window (Minutes)",
-   "non_negative": 1,
    "reqd": 1
   },
   {
@@ -148,7 +115,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-19 09:02:49.689161",
+ "modified": "2024-05-15 00:58:43.177700",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination",
@@ -165,9 +132,21 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Examination Candidate",
+   "share": 1
   }
  ],
+ "search_fields": "exam_name",
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "exam_name"
 }

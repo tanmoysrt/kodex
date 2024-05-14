@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "ECR-.#####",
  "creation": "2024-04-19 09:47:13.484977",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -11,7 +12,12 @@
   "graded",
   "column_break_xfiy",
   "gained_marks",
-  "total_marks"
+  "total_marks",
+  "login_session_tab",
+  "start_time",
+  "end_time",
+  "column_break_blto",
+  "login_window_minutes"
  ],
  "fields": [
   {
@@ -59,14 +65,39 @@
    "label": "Total Marks",
    "non_negative": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "start_time",
+   "fieldtype": "Datetime",
+   "label": "Start Time"
+  },
+  {
+   "fieldname": "end_time",
+   "fieldtype": "Datetime",
+   "label": "End Time"
+  },
+  {
+   "fieldname": "column_break_blto",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "login_window_minutes",
+   "fieldtype": "Int",
+   "label": "Login Window (Minutes)"
+  },
+  {
+   "fieldname": "login_session_tab",
+   "fieldtype": "Tab Break",
+   "label": "Login Session"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-14 23:42:52.745309",
+ "modified": "2024-05-15 00:58:27.645656",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Candidate Registration",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {

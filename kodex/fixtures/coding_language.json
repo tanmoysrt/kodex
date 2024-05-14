@@ -1,0 +1,50 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Coding Language",
+  "judge0_language_id": 4,
+  "modified": "2024-05-14 21:26:38.517556",
+  "name": "4",
+  "title": "C (gcc 7.2.0)"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Coding Language",
+  "judge0_language_id": 10,
+  "modified": "2024-05-14 21:28:03.121391",
+  "name": "10",
+  "title": "C++ (g++ 7.2.0)"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Coding Language",
+  "judge0_language_id": 22,
+  "modified": "2024-05-14 21:28:21.616223",
+  "name": "22",
+  "title": "Go (1.9)"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Coding Language",
+  "judge0_language_id": 27,
+  "modified": "2024-05-14 21:28:37.825247",
+  "name": "27",
+  "title": "Java (OpenJDK 8)"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Coding Language",
+  "judge0_language_id": 34,
+  "modified": "2024-05-14 21:29:03.976635",
+  "name": "34",
+  "title": "Python (3.6.0)"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Coding Language",
+  "judge0_language_id": 29,
+  "modified": "2024-05-14 21:29:26.529569",
+  "name": "29",
+  "title": "JavaScript (nodejs 8.5.0)"
+ }
+]

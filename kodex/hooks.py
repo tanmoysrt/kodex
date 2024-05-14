@@ -141,6 +141,12 @@ scheduler_events = {
 	}
 }
 
+fixtures = [
+	{"dt": "Role", "filters": [["name", "in", ["Examination Candidate"]]]},
+	{"dt": "Email Template", "filters": [["name", "in", ["Exam Registration Confirmation"]]]},
+	"Coding Language"
+]
+
 # Testing
 # -------
 
