@@ -1,0 +1,93 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-04-19 11:16:09.666506",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "question",
+  "examination_candidate",
+  "submitted_answer",
+  "marks",
+  "correct_answer",
+  "status",
+  "code_related_section",
+  "submission_id"
+ ],
+ "fields": [
+  {
+   "fieldname": "question",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Question",
+   "options": "Question",
+   "reqd": 1
+  },
+  {
+   "fieldname": "examination_candidate",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Examination Candidate",
+   "options": "Examination Candidate",
+   "reqd": 1
+  },
+  {
+   "fieldname": "marks",
+   "fieldtype": "Float",
+   "label": "Marks",
+   "reqd": 1
+  },
+  {
+   "fieldname": "submitted_answer",
+   "fieldtype": "Long Text",
+   "label": "Submitted Answer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "code_related_section",
+   "fieldtype": "Section Break",
+   "label": "Code Related"
+  },
+  {
+   "fieldname": "submission_id",
+   "fieldtype": "Data",
+   "label": "Submission Id"
+  },
+  {
+   "default": "0",
+   "fieldname": "correct_answer",
+   "fieldtype": "Check",
+   "label": "Correct Answer"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "running\nsubmitted"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-19 11:31:14.168760",
+ "modified_by": "Administrator",
+ "module": "Kodex",
+ "name": "Question Attempt",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

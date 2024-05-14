@@ -1,24 +1,126 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:QE-{######}",
  "creation": "2024-04-11 03:07:38.241156",
  "doctype": "DocType",
+ "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "section_break_wt4n"
+  "info_section",
+  "question",
+  "type",
+  "description",
+  "marks",
+  "mcq_question_details_tab",
+  "mcq_question_choices",
+  "textual_question_tab",
+  "auto_grade_based_on_exact_matching",
+  "exact_textual_question_answer",
+  "section_break_mizh",
+  "auto_grade_based_on_keyword_matching",
+  "keywords_for_textual_question_answer_seperated_by_commas",
+  "code_question_details_tab",
+  "code_question_testset"
  ],
  "fields": [
   {
-   "fieldname": "section_break_wt4n",
+   "fieldname": "question",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Question",
+   "reqd": 1
+  },
+  {
+   "fieldname": "info_section",
+   "fieldtype": "Section Break",
+   "label": "Info"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Type",
+   "options": "mcq\ntext\ncoding",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mcq_question_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "MCQ Question Details"
+  },
+  {
+   "fieldname": "textual_question_tab",
+   "fieldtype": "Tab Break",
+   "label": "Textual Question"
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_grade_based_on_exact_matching",
+   "fieldtype": "Check",
+   "label": "Auto Grade (based on exact matching)"
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_grade_based_on_keyword_matching",
+   "fieldtype": "Check",
+   "label": "Auto Grade (based on keyword matching)"
+  },
+  {
+   "fieldname": "exact_textual_question_answer",
+   "fieldtype": "Data",
+   "label": "Exact Textual Question Answer"
+  },
+  {
+   "fieldname": "section_break_mizh",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "keywords_for_textual_question_answer_seperated_by_commas",
+   "fieldtype": "Data",
+   "label": "Keywords for Textual Question Answer (seperated by commas)"
+  },
+  {
+   "fieldname": "marks",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Marks",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mcq_question_choices",
+   "fieldtype": "Table",
+   "label": "MCQ Question Choices",
+   "options": "MCQ Question Choice"
+  },
+  {
+   "fieldname": "code_question_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Code Question Details"
+  },
+  {
+   "fieldname": "code_question_testset",
+   "fieldtype": "Table",
+   "label": "Code Question Testset",
+   "options": "Code Question Test"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Markdown Editor",
+   "label": "Description",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-11 03:07:38.241156",
+ "modified": "2024-04-19 09:00:06.215076",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Question",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

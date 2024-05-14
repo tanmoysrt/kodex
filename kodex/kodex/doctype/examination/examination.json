@@ -8,6 +8,8 @@
   "exam_info_section",
   "exam_name",
   "description",
+  "total_marks",
+  "total_questions",
   "login_session_info_section",
   "start_time",
   "end_time",
@@ -128,11 +130,25 @@
    "fieldname": "lock_exam_on_focus_lose",
    "fieldtype": "Check",
    "label": "Lock exam on focus lose"
+  },
+  {
+   "fieldname": "total_marks",
+   "fieldtype": "Int",
+   "is_virtual": 1,
+   "label": "Total Marks",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_questions",
+   "fieldtype": "Int",
+   "is_virtual": 1,
+   "label": "Total Questions",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-11 02:45:17.413018",
+ "modified": "2024-04-19 09:02:49.689161",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination",

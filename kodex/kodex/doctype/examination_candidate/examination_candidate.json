@@ -1,0 +1,104 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-04-19 09:47:13.484977",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "examination",
+  "candidate",
+  "section_break_malw",
+  "amended_from",
+  "result_tab",
+  "graded",
+  "column_break_xfiy",
+  "gained_marks",
+  "total_marks"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_malw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Examination Candidate",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "examination",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Examination",
+   "options": "Examination",
+   "reqd": 1
+  },
+  {
+   "fieldname": "candidate",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Select Candidate",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "result_tab",
+   "fieldtype": "Tab Break",
+   "label": "Result"
+  },
+  {
+   "default": "0",
+   "fieldname": "graded",
+   "fieldtype": "Check",
+   "label": "Graded",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_xfiy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "gained_marks",
+   "fieldtype": "Float",
+   "label": "Gained Marks",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_marks",
+   "fieldtype": "Int",
+   "label": "Total Marks",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-04-19 10:01:03.506109",
+ "modified_by": "Administrator",
+ "module": "Kodex",
+ "name": "Examination Candidate",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
