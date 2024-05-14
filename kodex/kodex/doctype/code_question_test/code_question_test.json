@@ -16,14 +16,14 @@
    "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": "Input",
-   "reqd": 1
+   "not_nullable": 1
   },
   {
    "fieldname": "output",
    "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": "Output",
-   "reqd": 1
+   "not_nullable": 1
   },
   {
    "default": "0",
@@ -35,7 +35,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-14 21:39:05.532788",
+ "modified": "2024-05-15 01:33:51.729610",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Code Question Test",

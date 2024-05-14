@@ -33,7 +33,7 @@ class ExaminationCandidateRegistration(Document):
 		examination_record = frappe.get_doc("Examination", self.examination)
 		email_template = frappe.get_doc("Email Template", "Exam Registration Confirmation")
 		email_args = {
-			"candidate_name": candidate_record.name,
+			"candidate_name": candidate_record.first_name,
 			"exam_name": examination_record.exam_name,
 			"exam_duration": f"{self.login_window_minutes} minutes",
 			"exam_start_time": frappe.utils.get_datetime(self.start_time).strftime("%d-%m-%Y %I:%M %p"),
