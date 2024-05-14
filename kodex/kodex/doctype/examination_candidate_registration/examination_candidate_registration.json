@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "examination",
+  "column_break_prdf",
   "candidate",
   "result_tab",
   "graded",
@@ -17,7 +18,11 @@
   "start_time",
   "end_time",
   "column_break_blto",
-  "login_window_minutes"
+  "login_window_minutes",
+  "exam_started_on",
+  "credential_tab",
+  "exam_url",
+  "auth_token"
  ],
  "fields": [
   {
@@ -32,7 +37,7 @@
    "fieldname": "candidate",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Select Candidate",
+   "label": "Candidate",
    "options": "User",
    "reqd": 1
   },
@@ -69,12 +74,14 @@
   {
    "fieldname": "start_time",
    "fieldtype": "Datetime",
-   "label": "Start Time"
+   "label": "Start Time",
+   "reqd": 1
   },
   {
    "fieldname": "end_time",
    "fieldtype": "Datetime",
-   "label": "End Time"
+   "label": "End Time",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_blto",
@@ -83,12 +90,42 @@
   {
    "fieldname": "login_window_minutes",
    "fieldtype": "Int",
-   "label": "Login Window (Minutes)"
+   "label": "Login Window (Minutes)",
+   "non_negative": 1,
+   "reqd": 1
   },
   {
    "fieldname": "login_session_tab",
    "fieldtype": "Tab Break",
    "label": "Login Session"
+  },
+  {
+   "fieldname": "exam_started_on",
+   "fieldtype": "Datetime",
+   "label": "Exam Started On"
+  },
+  {
+   "fieldname": "column_break_prdf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "credential_tab",
+   "fieldtype": "Tab Break",
+   "label": "Credential"
+  },
+  {
+   "fieldname": "auth_token",
+   "fieldtype": "Data",
+   "label": "Auth Token",
+   "not_nullable": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "exam_url",
+   "fieldtype": "Small Text",
+   "is_virtual": 1,
+   "label": "Exam URL",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -96,9 +133,13 @@
   {
    "link_doctype": "Examination Question Attempt",
    "link_fieldname": "examination_candidate_registration"
+  },
+  {
+   "link_doctype": "Examination Proctoring Image",
+   "link_fieldname": "examination_candidate_registration"
   }
  ],
- "modified": "2024-05-15 02:24:29.518270",
+ "modified": "2024-05-15 03:43:58.575915",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Candidate Registration",
