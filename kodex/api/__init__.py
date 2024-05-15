@@ -153,7 +153,7 @@ def submit_proctoring_images(exam_registration_name, auth_token):
 	_file = frappe.get_doc(
 		{
 			"doctype": "File",
-			"file_name": frappe.utils.random_string(10)+"."+image.content_type.split("/")[1],
+			"file_name": frappe.utils.random_string(20)+"."+image.content_type.split("/")[1],
 			"attached_to_doctype": "Examination Candidate Registration",
 			"attached_to_name": exam_registration_name,
 			"content": image.stream.read(),
