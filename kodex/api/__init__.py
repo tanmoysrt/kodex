@@ -4,7 +4,7 @@ import frappe
 from kodex.kodex.doctype.code_runner.code_runner import CodeRunner
 
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist(allow_guest=True, methods=["POST"])
 def get_examination_details(exam_registration_name, auth_token):
 	record = frappe.get_doc("Examination Candidate Registration", exam_registration_name)
 	record.check_auth(auth_token)
@@ -72,7 +72,7 @@ def run_code(exam_registration_name, auth_token, source_code_base64, language_id
 	}
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
-def code_result(exam_registration_name, auth_token, code_runner_id, code_runner_access_token):
+def get_code_result(exam_registration_name, auth_token, code_runner_id, code_runner_access_token):
 	record = frappe.get_doc("Examination Candidate Registration", exam_registration_name)
 	record.check_auth(auth_token)
 	is_valid_to_start, message = record.validate_for_starting_exam()
