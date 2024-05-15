@@ -1,0 +1,19 @@
+meta {
+  name: [Malpractice] Submit And End Exam
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://exam.local:8001/api/method/kodex.api.end_exam_due_to_malpractice
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "exam_registration_name": "ECR-00005",
+    "auth_token": "e5a386ef29ee64e455e9939a61cad5f5a92da33694bedb91bfbec3307a01cd03",
+    "reason": "User goes out of focus of browser"
+  }
+}

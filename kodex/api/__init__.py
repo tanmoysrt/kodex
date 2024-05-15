@@ -103,6 +103,27 @@ def submit_answer(exam_registration_name, auth_token, question_name, answer_base
 		return frappe.throw(message)
 	try:
 		ExaminationQuestionAttempt.record(exam_registration_name, question_name, base64.b64decode(answer_base64).decode("utf-8"))
+		return "ok"
 	except Exception as e:
 		frappe.log_error("failed to record answer", message=e)
 		frappe.throw("failed to record answer")
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+def submit_and_end_exam(exam_registration_name, auth_token):
+	record = frappe.get_cached_doc("Examination Candidate Registration", exam_registration_name)
+	record.check_auth(auth_token)
+	is_valid_to_start, message = record.validate_for_starting_exam()
+	if not is_valid_to_start:
+		return frappe.throw(message)
+	record.end_exam()
+	return "ok"
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+def end_exam_due_to_malpractice(exam_registration_name, auth_token, reason):
+	record = frappe.get_cached_doc("Examination Candidate Registration", exam_registration_name)
+	record.check_auth(auth_token)
+	is_valid_to_start, message = record.validate_for_starting_exam()
+	if not is_valid_to_start:
+		return frappe.throw(message)
+	record.end_exam_due_to_malpractice(reason)
+	return "ok"

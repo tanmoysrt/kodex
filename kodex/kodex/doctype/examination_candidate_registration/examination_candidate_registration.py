@@ -71,9 +71,20 @@ class ExaminationCandidateRegistration(Document):
 			self.save(ignore_permissions=True)
 
 	def end_exam(self):
+		if not self.exam_started_on:
+			self.exam_started_on = frappe.utils.get_datetime()
 		self.exam_ended = True
 		self.exam_ended_on = frappe.utils.get_datetime()
-		self.save()
+		self.save(ignore_permissions=True)
+
+	def end_exam_due_to_malpractice(self, reason):
+		if not self.exam_started_on:
+			self.exam_started_on = frappe.utils.get_datetime()
+		self.exam_ended = True
+		self.exam_ended_on = frappe.utils.get_datetime()
+		self.ended_due_to_malpractice = True
+		self.malpractice_info = reason
+		self.save(ignore_permissions=True)
 
 	def check_auth(self, auth_token):
 		if auth_token != self.auth_token:
