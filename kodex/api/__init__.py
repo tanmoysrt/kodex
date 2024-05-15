@@ -109,6 +109,17 @@ def submit_answer(exam_registration_name, auth_token, question_name, answer_base
 		frappe.throw("failed to record answer")
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
+def get_submitted_answers(exam_registration_name, auth_token):
+	record = frappe.get_cached_doc("Examination Candidate Registration", exam_registration_name)
+	record.check_auth(auth_token)
+	is_valid_to_start, message = record.validate_for_starting_exam()
+	if not is_valid_to_start:
+		return frappe.throw(message)
+	return frappe.get_list("Examination Question Attempt", filters={
+		"examination_candidate_registration": exam_registration_name
+	}, fields=["question", "submitted_answer"], ignore_permissions=True)
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
 def submit_and_end_exam(exam_registration_name, auth_token):
 	record = frappe.get_cached_doc("Examination Candidate Registration", exam_registration_name)
 	record.check_auth(auth_token)
