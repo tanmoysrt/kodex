@@ -65,6 +65,11 @@ class ExaminationCandidateRegistration(Document):
 			delayed=False
 		)
 
+	def start_exam(self):
+		if not self.exam_started_on:
+			self.exam_started_on = frappe.utils.get_datetime()
+			self.save(ignore_permissions=True)
+
 	def end_exam(self):
 		self.exam_ended = True
 		self.exam_ended_on = frappe.utils.get_datetime()

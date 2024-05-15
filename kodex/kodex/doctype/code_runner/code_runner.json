@@ -7,8 +7,9 @@
  "field_order": [
   "judge0_language_id",
   "status",
-  "judge0_submission_id",
+  "access_token",
   "column_break_bfuu",
+  "judge0_submission_id",
   "time_second",
   "memory_kb",
   "section_break_iwet",
@@ -118,11 +119,18 @@
    "in_list_view": 1,
    "label": "Judge0 Status Description",
    "not_nullable": 1
+  },
+  {
+   "description": "Will be used to authenticate the access to result of runner ",
+   "fieldname": "access_token",
+   "fieldtype": "Data",
+   "label": "Access Token",
+   "not_nullable": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-14 23:16:51.710667",
+ "modified": "2024-05-16 01:34:19.428373",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Code Runner",

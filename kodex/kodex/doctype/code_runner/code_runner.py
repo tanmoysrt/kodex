@@ -7,6 +7,7 @@ import base64
 
 class CodeRunner(Document):
 	def before_insert(self):
+		self.access_token = frappe.generate_hash(length=20)
 		submission_success, submission_token = judge0.submit_question(self.code, self.judge0_language_id, self.input)
 		if submission_success:
 			self.status = "submitted"
@@ -14,6 +15,18 @@ class CodeRunner(Document):
 		else:
 			self.status = "failed"
 			self.judge0_submission_id = ""
+
+	@staticmethod
+	def run_code(code, language_id, input) -> [str, str]:
+		doc = frappe.new_doc("Code Runner")
+		doc.code = code
+		doc.input = input
+		# check if language is available
+		if not frappe.get_cached_doc("Coding Language", language_id):
+			frappe.throw("Language not found")
+		doc.judge0_language_id = language_id
+		doc.save(ignore_permissions=True)
+		return [doc.name, doc.access_token]
 
 def check_code_submission_results():
 	submitted_codes = frappe.get_list("Code Runner", fields=["name", "judge0_submission_id"], filters={"status": "submitted"})

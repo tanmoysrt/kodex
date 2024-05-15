@@ -1,5 +1,7 @@
-import frappe
+import base64
 
+import frappe
+from kodex.kodex.doctype.code_runner.code_runner import CodeRunner
 
 
 @frappe.whitelist(allow_guest=True)
@@ -45,12 +47,48 @@ def get_examination_details(exam_registration_name, auth_token):
 		}
 	}
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist(allow_guest=True, methods=["POST"])
 def download_questions(exam_registration_name, auth_token):
 	record = frappe.get_doc("Examination Candidate Registration", exam_registration_name)
 	record.check_auth(auth_token)
 	is_valid_to_start, message = record.validate_for_starting_exam()
 	if not is_valid_to_start:
 		return frappe.throw(message)
+	record.start_exam()
 	exam_record = frappe.get_cached_doc("Examination", record.examination)
 	return exam_record.get_questions_for_candidate()
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+def run_code(exam_registration_name, auth_token, source_code_base64, language_id, input_base64):
+	record = frappe.get_doc("Examination Candidate Registration", exam_registration_name)
+	record.check_auth(auth_token)
+	is_valid_to_start, message = record.validate_for_starting_exam()
+	if not is_valid_to_start:
+		return frappe.throw(message)
+	res = CodeRunner.run_code(base64.b64decode(source_code_base64).decode("utf-8"), language_id, base64.b64decode(input_base64).decode("utf-8"))
+	return {
+		"id": res[0],
+		"access_token": res[1]
+	}
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+def code_result(exam_registration_name, auth_token, code_runner_id, code_runner_access_token):
+	record = frappe.get_doc("Examination Candidate Registration", exam_registration_name)
+	record.check_auth(auth_token)
+	is_valid_to_start, message = record.validate_for_starting_exam()
+	if not is_valid_to_start:
+		return frappe.throw(message)
+	result = frappe.get_doc("Code Runner", {
+		"name": code_runner_id,
+		"access_token": code_runner_access_token
+	})
+	return {
+		"status": result.status,
+		"status_description": result.debug_judge0_status_description,
+		"time_second": result.time_second,
+		"memory_kb": result.memory_kb,
+		"input": result.input,
+		"output": result.output,
+		"error": result.error,
+		"compile_output": result.compile_output
+	}
