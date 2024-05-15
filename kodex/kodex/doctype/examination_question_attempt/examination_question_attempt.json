@@ -8,10 +8,11 @@
   "question",
   "examination_candidate_registration",
   "submitted_answer",
-  "marks",
+  "section_break_rbxt",
+  "graded",
+  "column_break_usfa",
   "correct_answer",
-  "code_related_section",
-  "submission_id"
+  "marks"
  ],
  "fields": [
   {
@@ -25,24 +26,13 @@
   {
    "fieldname": "marks",
    "fieldtype": "Float",
-   "label": "Marks",
-   "reqd": 1
+   "label": "Marks"
   },
   {
    "fieldname": "submitted_answer",
    "fieldtype": "Long Text",
    "label": "Submitted Answer",
    "reqd": 1
-  },
-  {
-   "fieldname": "code_related_section",
-   "fieldtype": "Section Break",
-   "label": "Code Related"
-  },
-  {
-   "fieldname": "submission_id",
-   "fieldtype": "Data",
-   "label": "Submission Id"
   },
   {
    "default": "0",
@@ -57,11 +47,25 @@
    "label": "Examination Candidate Registration",
    "options": "Examination Candidate Registration",
    "reqd": 1
+  },
+  {
+   "fieldname": "section_break_rbxt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "graded",
+   "fieldtype": "Check",
+   "label": "Graded"
+  },
+  {
+   "fieldname": "column_break_usfa",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-14 18:56:13.250352",
+ "modified": "2024-05-16 02:01:45.485397",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Question Attempt",

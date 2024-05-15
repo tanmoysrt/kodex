@@ -2,11 +2,12 @@ import base64
 
 import frappe
 from kodex.kodex.doctype.code_runner.code_runner import CodeRunner
+from kodex.kodex.doctype.examination_question_attempt.examination_question_attempt import ExaminationQuestionAttempt
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 def get_examination_details(exam_registration_name, auth_token):
-	record = frappe.get_doc("Examination Candidate Registration", exam_registration_name)
+	record = frappe.get_cached_doc("Examination Candidate Registration", exam_registration_name)
 	record.check_auth(auth_token)
 	is_valid_to_start, message = record.validate_for_starting_exam()
 	exam_details = frappe.get_cached_doc("Examination", record.examination)
@@ -49,7 +50,7 @@ def get_examination_details(exam_registration_name, auth_token):
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 def download_questions(exam_registration_name, auth_token):
-	record = frappe.get_doc("Examination Candidate Registration", exam_registration_name)
+	record = frappe.get_cached_doc("Examination Candidate Registration", exam_registration_name)
 	record.check_auth(auth_token)
 	is_valid_to_start, message = record.validate_for_starting_exam()
 	if not is_valid_to_start:
@@ -60,7 +61,7 @@ def download_questions(exam_registration_name, auth_token):
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 def run_code(exam_registration_name, auth_token, source_code_base64, language_id, input_base64):
-	record = frappe.get_doc("Examination Candidate Registration", exam_registration_name)
+	record = frappe.get_cached_doc("Examination Candidate Registration", exam_registration_name)
 	record.check_auth(auth_token)
 	is_valid_to_start, message = record.validate_for_starting_exam()
 	if not is_valid_to_start:
@@ -73,7 +74,7 @@ def run_code(exam_registration_name, auth_token, source_code_base64, language_id
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 def get_code_result(exam_registration_name, auth_token, code_runner_id, code_runner_access_token):
-	record = frappe.get_doc("Examination Candidate Registration", exam_registration_name)
+	record = frappe.get_cached_doc("Examination Candidate Registration", exam_registration_name)
 	record.check_auth(auth_token)
 	is_valid_to_start, message = record.validate_for_starting_exam()
 	if not is_valid_to_start:
@@ -92,3 +93,16 @@ def get_code_result(exam_registration_name, auth_token, code_runner_id, code_run
 		"error": result.error,
 		"compile_output": result.compile_output
 	}
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+def submit_answer(exam_registration_name, auth_token, question_name, answer_base64):
+	record = frappe.get_cached_doc("Examination Candidate Registration", exam_registration_name)
+	record.check_auth(auth_token)
+	is_valid_to_start, message = record.validate_for_starting_exam()
+	if not is_valid_to_start:
+		return frappe.throw(message)
+	try:
+		ExaminationQuestionAttempt.record(exam_registration_name, question_name, base64.b64decode(answer_base64).decode("utf-8"))
+	except Exception as e:
+		frappe.log_error("failed to record answer", message=e)
+		frappe.throw("failed to record answer")
