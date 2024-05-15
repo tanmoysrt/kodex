@@ -17,9 +17,13 @@
   "login_session_tab",
   "start_time",
   "end_time",
-  "column_break_blto",
   "login_window_minutes",
+  "column_break_blto",
   "exam_started_on",
+  "exam_ended_on",
+  "exam_ended",
+  "ended_due_to_malpractice",
+  "malpractice_info",
   "credential_tab",
   "exam_url",
   "auth_token"
@@ -126,6 +130,28 @@
    "is_virtual": 1,
    "label": "Exam URL",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "exam_ended",
+   "fieldtype": "Check",
+   "label": "Exam Ended"
+  },
+  {
+   "fieldname": "exam_ended_on",
+   "fieldtype": "Datetime",
+   "label": "Exam Ended On"
+  },
+  {
+   "default": "0",
+   "fieldname": "ended_due_to_malpractice",
+   "fieldtype": "Check",
+   "label": "Ended due to malpractice"
+  },
+  {
+   "fieldname": "malpractice_info",
+   "fieldtype": "Small Text",
+   "label": "Malpractice info"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -139,7 +165,7 @@
    "link_fieldname": "examination_candidate_registration"
   }
  ],
- "modified": "2024-05-15 03:43:58.575915",
+ "modified": "2024-05-16 00:32:58.439463",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Candidate Registration",

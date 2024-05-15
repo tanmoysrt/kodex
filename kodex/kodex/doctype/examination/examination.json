@@ -6,6 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "exam_info_tab",
   "exam_info_section",
   "exam_name",
   "description",
@@ -14,19 +15,20 @@
   "proctoring_config_section",
   "full_screen_mode",
   "watermark_candidate_id",
-  "lock_exam_on_focus_lose",
+  "auto_submit_exam_on_focus_lose",
   "column_break_shkq",
   "copy_paste_disabled",
   "right_click_disabled",
   "column_break_aclc",
   "video_proctoring",
-  "no_of_pictures_per_minute"
+  "no_of_pictures_per_minute",
+  "questions_tab",
+  "questions"
  ],
  "fields": [
   {
    "fieldname": "exam_info_section",
-   "fieldtype": "Section Break",
-   "label": "Exam Info"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "exam_name",
@@ -94,12 +96,6 @@
    "reqd": 1
   },
   {
-   "default": "0",
-   "fieldname": "lock_exam_on_focus_lose",
-   "fieldtype": "Check",
-   "label": "Lock exam on focus lose"
-  },
-  {
    "fieldname": "total_marks",
    "fieldtype": "Int",
    "is_virtual": 1,
@@ -112,6 +108,28 @@
    "is_virtual": 1,
    "label": "Total Questions",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_submit_exam_on_focus_lose",
+   "fieldtype": "Check",
+   "label": "Auto submit exam on focus lose"
+  },
+  {
+   "fieldname": "exam_info_tab",
+   "fieldtype": "Tab Break",
+   "label": "Exam Info"
+  },
+  {
+   "fieldname": "questions_tab",
+   "fieldtype": "Tab Break",
+   "label": "Questions"
+  },
+  {
+   "fieldname": "questions",
+   "fieldtype": "Table",
+   "label": "Questions",
+   "options": "Has Examination Question"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -119,13 +137,9 @@
   {
    "link_doctype": "Examination Candidate Registration",
    "link_fieldname": "examination"
-  },
-  {
-   "link_doctype": "Examination Question Mapping",
-   "link_fieldname": "examination"
   }
  ],
- "modified": "2024-05-15 02:22:26.303987",
+ "modified": "2024-05-16 00:40:19.480490",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination",

@@ -19,10 +19,11 @@ class ExaminationCandidateRegistration(Document):
 		return f"{frappe.utils.get_url()}/exam/{payload_base64}"
 
 	def validate(self):
-		# check if no duplicate candidate is registered
-		if frappe.db.exists("Examination Candidate Registration",
-		                    {"candidate": self.candidate, "examination": self.examination}):
-			frappe.throw("Candidate is already registered")
+		if self.is_new():
+			# check if no duplicate candidate is registered
+			if frappe.db.exists("Examination Candidate Registration",
+			                    {"candidate": self.candidate, "examination": self.examination}):
+				frappe.throw("Candidate is already registered")
 
 	def before_save(self):
 		# Check if "Examination Candidate" role is exist in the user roles
@@ -63,3 +64,31 @@ class ExaminationCandidateRegistration(Document):
 			message=email_template.get_formatted_response(email_args),
 			delayed=False
 		)
+
+	def end_exam(self):
+		self.exam_ended = True
+		self.exam_ended_on = frappe.utils.get_datetime()
+		self.save()
+
+	def check_auth(self, auth_token):
+		if auth_token != self.auth_token:
+			frappe.throw("Invalid Auth Token")
+
+	def is_exam_started(self):
+		return self.exam_started_on is not None
+
+
+	def validate_for_starting_exam(self) -> [bool, str]:
+		# check if exam has not ended
+		if self.exam_ended:
+			return [False, "Candidate has already submitted the exam"]
+		# check if current time is between start time and end time
+		if frappe.utils.get_datetime() < self.start_time:
+			return [False, "Exam has not started yet\nRefresh the page to check again"]
+		if frappe.utils.get_datetime() > self.end_time:
+			return [False, "Exam window has expired"]
+		# check if exam is started and start time + login window is not passed
+		if self.exam_started_on :
+			if frappe.utils.get_datetime(self.exam_started_on) + datetime.timedelta(minutes=self.login_window_minutes) < frappe.utils.get_datetime():
+				return [False, "Candidate has already submitted the exam"]
+		return [True, "you are good to go"]

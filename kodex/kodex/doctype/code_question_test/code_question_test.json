@@ -8,7 +8,7 @@
  "field_order": [
   "input",
   "output",
-  "hidden_testcase"
+  "hidden"
  ],
  "fields": [
   {
@@ -27,7 +27,7 @@
   },
   {
    "default": "0",
-   "fieldname": "hidden_testcase",
+   "fieldname": "hidden",
    "fieldtype": "Check",
    "in_list_view": 1,
    "label": "Hidden Testcase"
@@ -36,7 +36,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-15 02:03:55.662967",
+ "modified": "2024-05-16 01:14:09.620951",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Code Question Test",

@@ -5,7 +5,7 @@ import frappe
 from frappe.model.document import Document
 
 
-class ExaminationQuestionMapping(Document):
+class HasExaminationQuestion(Document):
 	def validate(self):
 		if frappe.db.exists("Examination Question Mapping",
 		                    {"examination": self.examination, "question": self.question}):

@@ -83,7 +83,7 @@
   },
   {
    "fieldname": "description",
-   "fieldtype": "Markdown Editor",
+   "fieldtype": "Text",
    "label": "Description",
    "reqd": 1
   },
@@ -128,7 +128,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-15 02:18:46.858760",
+ "modified": "2024-05-16 00:42:32.305573",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Question",
@@ -148,7 +148,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "description"
 }

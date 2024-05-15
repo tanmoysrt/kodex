@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestExaminationQuestionMapping(FrappeTestCase):
+class TestHasExaminationQuestion(FrappeTestCase):
 	pass
