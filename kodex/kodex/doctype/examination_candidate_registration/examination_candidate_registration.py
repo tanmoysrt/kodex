@@ -93,7 +93,6 @@ class ExaminationCandidateRegistration(Document):
 	def is_exam_started(self):
 		return self.exam_started_on is not None
 
-
 	def validate_for_starting_exam(self) -> [bool, str]:
 		# check if exam has not ended
 		if self.exam_ended:
@@ -104,7 +103,16 @@ class ExaminationCandidateRegistration(Document):
 		if frappe.utils.get_datetime() > self.end_time:
 			return [False, "Exam window has expired"]
 		# check if exam is started and start time + login window is not passed
-		if self.exam_started_on :
-			if frappe.utils.get_datetime(self.exam_started_on) + datetime.timedelta(minutes=self.login_window_minutes) < frappe.utils.get_datetime():
+		if self.exam_started_on:
+			if frappe.utils.get_datetime(self.exam_started_on) + datetime.timedelta(
+					minutes=self.login_window_minutes) < frappe.utils.get_datetime():
 				return [False, "Candidate has already submitted the exam"]
 		return [True, "you are good to go"]
+
+
+@frappe.whitelist()
+def get_proctoring_images(exam_candidate_registration_name):
+	return frappe.get_list("File", {
+		"attached_to_doctype": "Examination Candidate Registration",
+		"attached_to_name": exam_candidate_registration_name
+	}, pluck="file_url")

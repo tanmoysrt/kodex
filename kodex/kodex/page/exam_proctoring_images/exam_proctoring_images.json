@@ -1,0 +1,23 @@
+{
+ "content": null,
+ "creation": "2024-05-16 03:32:25.116288",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2024-05-16 03:32:25.116288",
+ "modified_by": "Administrator",
+ "module": "Kodex",
+ "name": "exam-proctoring-imag",
+ "owner": "Administrator",
+ "page_name": "exam-proctoring-imag",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Exam Proctoring Images"
+}

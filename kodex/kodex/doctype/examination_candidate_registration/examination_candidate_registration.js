@@ -6,6 +6,7 @@ frappe.ui.form.on("Examination Candidate Registration", {
 		frm.add_custom_button(__("Grade Examination"), function(){
 		    alert("Not implemented yet");
 		});
+
 		frm.add_custom_button(__("Send Invitation"), function(){
 			frappe.call({
 				method: "send_invitation",
@@ -24,6 +25,10 @@ frappe.ui.form.on("Examination Candidate Registration", {
 					frappe.msgprint(r.message);
 				}
 			});
+		});
+
+		frm.add_custom_button(__("Check Proctoring Images"), function(){
+			window.open(frappe.urllib.get_full_url(`/app/exam-proctoring-images?id=${frm.doc.name}`), "_blank");
 		});
 	},
 });
