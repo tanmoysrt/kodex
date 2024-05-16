@@ -2,9 +2,9 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2024-05-15 01:26:56.679326",
+  "modified": "2024-05-17 02:46:26.012703",
   "name": "Exam Registration Confirmation",
-  "response": "<div class=\"ql-editor read-mode\"><h3>Hi 👋 {{ candidate_name }}</h3><p><br></p><p>Your registration for&nbsp;<strong>{{ exam_name }}</strong> has been confirmed.</p><p><br></p><p><strong>Examination Details -</strong></p><p>Exam duration will be <strong>{{ exam_duration }}</strong>.</p><p>You can take the exam anytime between <strong>{{ exam_start_time }}</strong> to <strong>{{ exam_end_time }}</strong>.</p><p><br></p><p>Exam URL - TODO</p><p><br></p><p>Best luck for your exam.</p></div>",
+  "response": "<div class=\"ql-editor read-mode\"><h3>Hi 👋 {{ candidate_name }}</h3><p><br></p><p>Your registration for&nbsp;<strong>{{ exam_name }}</strong> has been confirmed.</p><p><br></p><p><strong>Examination Details -</strong></p><p>Exam duration will be <strong>{{ exam_duration }}</strong>.</p><p>You can take the exam anytime between <strong>{{ exam_start_time }}</strong> to <strong>{{ exam_end_time }}</strong>.</p><p><br></p><p>Exam URL - <a href=\"{{ exam_url }}\" rel=\"noopener noreferrer\">{{ exam_url }}</a></p><p><br></p><p>Best luck for your exam.</p></div>",
   "response_html": null,
   "subject": "Exam Registration Confirmation - {{ exam_name }}",
   "use_html": 0
