@@ -138,6 +138,7 @@ export const useExam = defineStore('exam_management', () => {
 
 
   function start_exam() {
+    document.getElementsByTagName('body')[0].style.backgroundImage = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='200px' width='200px'><text transform='translate(20, 100) rotate(-45)' fill='rgb(210,210,210)' font-size='20'>${details_resource.data.candidate.email}</text></svg>");`
     if (!(navigator.userAgent.indexOf('Firefox') === -1 && navigator.userAgent.indexOf('Chrome') !== -1)) {
       toast({
         title: 'Only Chrome is supported',
@@ -173,6 +174,10 @@ export const useExam = defineStore('exam_management', () => {
       setInterval(() => {
         debugger;
       }, 1000)
+    }
+    if (details_resource.data.proctoring.watermark_candidate_id) {
+      const svgString = `<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='200px' width='400px'><text transform='translate(40, 180) rotate(-25)' fill='rgb(220,220,220)' font-size='20'>${details_resource.data.candidate.email}</text></svg>`
+      document.body.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(svgString)}")`
     }
     start_video_proctoring()
   }
