@@ -34,7 +34,7 @@ async function monitor() {
     seconds_left_from_auto_submit.value = 20
     exam_store.set_locally_full_screen_mode_enabled(true)
   } else {
-    exam_store.set_locally_full_screen_mode_enabled(true)
+    exam_store.set_locally_full_screen_mode_enabled(false)
     if (!exam_store.is_exam_started) return
     is_full_screen_enabled.value = false
     if (full_screen_mode_entered.value) {

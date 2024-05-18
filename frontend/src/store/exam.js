@@ -150,7 +150,7 @@ export const useExam = defineStore('exam_management', () => {
       return
     }
 
-    if (details_resource.data.proctoring.full_screen_mode && !is_full_screen_mode_enabled.value) {
+    if (details_resource.data.proctoring.full_screen_mode && !locally_full_screen_mode_enabled.value) {
       toast({
         title: 'Full Screen Mode is disabled',
         position: 'top-right',
