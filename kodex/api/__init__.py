@@ -203,7 +203,7 @@ def end_exam_due_to_malpractice(exam_registration_name, auth_token, reason):
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
-def submit_proctoring_images(exam_registration_name, auth_token):
+def submit_proctoring_images(exam_registration_name, auth_token, image_b64):
     record = frappe.get_cached_doc(
         "Examination Candidate Registration", exam_registration_name
     )
@@ -211,19 +211,14 @@ def submit_proctoring_images(exam_registration_name, auth_token):
     is_valid_to_start, message = record.validate_for_starting_exam()
     if not is_valid_to_start:
         return frappe.throw(message)
-    files = frappe.request.files
-    if "image" not in files:
-        return frappe.throw("No image found")
-    image = files["image"]
+    image = base64.b64decode(image_b64, validate=True)
     _file = frappe.get_doc(
         {
             "doctype": "File",
-            "file_name": frappe.utils.random_string(20)
-            + "."
-            + image.content_type.split("/")[1],
+            "file_name": frappe.utils.random_string(20) + ".png",
             "attached_to_doctype": "Examination Candidate Registration",
             "attached_to_name": exam_registration_name,
-            "content": image.stream.read(),
+            "content": image,
             "decode": False,
             "is_private": True,
         }

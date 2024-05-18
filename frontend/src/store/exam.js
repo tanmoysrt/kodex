@@ -1,29 +1,29 @@
 import { defineStore } from 'pinia'
 import { createResource, toast } from 'frappe-ui'
-import { computed, nextTick, ref, shallowRef } from 'vue'
+import { nextTick, ref, shallowRef } from 'vue'
+import { getConfig } from 'frappe-ui/src/utils/config'
 
 export const useExam = defineStore('exam_management', () => {
   const exam_creds_base64 = shallowRef('')
   const exam_creds_invalid = ref(false)
   const auth_token = shallowRef('')
-  const details_resource = createResource({
-    method: 'POST',
-    url: 'kodex.api.get_examination_details',
-    onSuccess: on_success_fetch_exam_registration_details
-  })
   const is_video_monitoring_enabled = ref(false)
   const is_full_screen_mode_enabled = ref(false)
   const local_clipboard = shallowRef('')
   const is_exam_started = ref(false)
   const locally_full_screen_mode_enabled = ref(false)
   const locally_webcam_feed_enabled = ref(false)
-
-  const set_locally_full_screen_mode_enabled = (value) => {
-    locally_full_screen_mode_enabled.value = value
-  }
-  const set_locally_webcam_feed_enabled = (value) => {
-    locally_webcam_feed_enabled.value = value
-  }
+  const set_locally_full_screen_mode_enabled = (value) => locally_full_screen_mode_enabled.value = value
+  const set_locally_webcam_feed_enabled = (value) => locally_webcam_feed_enabled.value = value
+  const details_resource = createResource({
+    method: 'POST',
+    url: 'kodex.api.get_examination_details',
+    onSuccess: on_success_fetch_exam_registration_details
+  })
+  const submit_proctoring_images_resource = createResource({
+    method: 'POST',
+    url: 'kodex.api.submit_proctoring_images'
+  })
 
   const fetch_exam_registration_resource = (credsBase64) => {
     try {
@@ -115,6 +115,28 @@ export const useExam = defineStore('exam_management', () => {
     }
   }
 
+  function start_video_proctoring() {
+    if (!details_resource.data.proctoring.video_proctoring.enabled) return
+    const images_per_minute = details_resource.data.proctoring.video_proctoring.no_of_pictures_per_minute
+    setInterval(function() {
+      try {
+        const video = document.getElementById('webcam')
+        const canvas = document.createElement('canvas')
+        canvas.width = video.clientWidth
+        canvas.height = video.clientHeight
+        canvas.getContext('2d').drawImage(video, 0, 0, video.clientWidth, video.clientHeight)
+        submit_proctoring_images_resource.fetch({
+          exam_registration_name: details_resource.data.registration_name,
+          auth_token: auth_token.value,
+          image_b64: canvas.toDataURL('image/png').split(',')[1]
+        })
+      } catch (e) {
+        console.log('failed to submit image')
+      }
+    }, (60 / images_per_minute) * 1000)
+  }
+
+
   function start_exam() {
     if (!(navigator.userAgent.indexOf('Firefox') === -1 && navigator.userAgent.indexOf('Chrome') !== -1)) {
       toast({
@@ -135,6 +157,7 @@ export const useExam = defineStore('exam_management', () => {
         icon: 'x-circle',
         iconClasses: 'text-red-500'
       })
+      return
     }
     if (is_video_monitoring_enabled.value && !locally_webcam_feed_enabled.value) {
       toast({
@@ -144,8 +167,9 @@ export const useExam = defineStore('exam_management', () => {
         icon: 'x-circle',
         iconClasses: 'text-red-500'
       })
+      return
     }
-
+    start_video_proctoring()
   }
 
   return {
