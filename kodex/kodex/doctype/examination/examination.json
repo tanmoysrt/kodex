@@ -19,6 +19,7 @@
   "column_break_shkq",
   "copy_paste_disabled",
   "right_click_disabled",
+  "devtools_disabled",
   "column_break_aclc",
   "video_proctoring",
   "no_of_pictures_per_minute",
@@ -72,7 +73,7 @@
    "label": "Copy Paste Disabled"
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "right_click_disabled",
    "fieldtype": "Check",
    "label": "Right Click Disabled"
@@ -130,6 +131,12 @@
    "fieldtype": "Table",
    "label": "Questions",
    "options": "Has Examination Question"
+  },
+  {
+   "default": "1",
+   "fieldname": "devtools_disabled",
+   "fieldtype": "Check",
+   "label": "Devtools Disabled"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -139,7 +146,7 @@
    "link_fieldname": "examination"
   }
  ],
- "modified": "2024-05-16 00:40:19.480490",
+ "modified": "2024-05-18 17:37:28.192085",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination",

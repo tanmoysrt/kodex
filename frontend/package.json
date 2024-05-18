@@ -19,7 +19,7 @@
     "markdown-it-sup": "^2.0.0",
     "markdown-it-task-lists": "^2.1.1",
     "pinia": "^2.1.7",
-    "vue": "^3.2.25",
+    "vue": "^3.3.9",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {

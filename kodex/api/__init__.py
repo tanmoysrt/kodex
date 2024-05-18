@@ -43,6 +43,7 @@ def get_examination_details(exam_registration_name, auth_token):
                 ),
                 "copy_paste_disabled": bool(exam_details.copy_paste_disabled),
                 "right_click_disabled": bool(exam_details.right_click_disabled),
+                "devtools_disabled": bool(exam_details.devtools_disabled),
                 "video_proctoring": {
                     "enabled": bool(exam_details.video_proctoring),
                     "no_of_pictures_per_minute": exam_details.no_of_pictures_per_minute,
