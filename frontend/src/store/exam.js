@@ -169,6 +169,11 @@ export const useExam = defineStore('exam_management', () => {
       })
       return
     }
+    if (details_resource.data.proctoring.devtools_disabled) {
+      setInterval(() => {
+        debugger;
+      }, 1000)
+    }
     start_video_proctoring()
   }
 
