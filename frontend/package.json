@@ -9,7 +9,16 @@
   },
   "dependencies": {
     "feather-icons": "^4.28.0",
-    "frappe-ui": "^0.0.105",
+    "frappe-ui": "^0.1.54",
+    "markdown-it": "^14.1.0",
+    "markdown-it-abbr": "^2.0.0",
+    "markdown-it-anchor": "^9.0.1",
+    "markdown-it-footnote": "^4.0.0",
+    "markdown-it-highlightjs": "^4.1.0",
+    "markdown-it-sub": "^2.0.0",
+    "markdown-it-sup": "^2.0.0",
+    "markdown-it-task-lists": "^2.1.1",
+    "pinia": "^2.1.7",
     "vue": "^3.2.25",
     "vue-router": "^4.0.12"
   },
