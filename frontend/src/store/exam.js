@@ -180,6 +180,7 @@ export const useExam = defineStore('exam_management', () => {
       document.body.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(svgString)}")`
     }
     start_video_proctoring()
+    is_exam_started.value = true
   }
 
   return {
