@@ -2,7 +2,7 @@
 import { Toasts } from 'frappe-ui'
 </script>
 <template>
-  <div id="test" class="p-4 select-none">
+  <div id="test" class="select-none">
     <Toasts />
     <router-view />
   </div>

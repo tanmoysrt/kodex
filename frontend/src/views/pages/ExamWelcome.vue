@@ -3,10 +3,7 @@ import { useRoute } from 'vue-router'
 import { onMounted } from 'vue'
 import { Button } from 'frappe-ui'
 import MarkdownRenderer from '@/views/components/MarkdownRenderer.vue'
-import WebcamFeed from '@/views/partials/WebcamFeed.vue'
 import { useExam } from '@/store/exam'
-import FullScreenMode from '@/views/partials/FullScreenMode.vue'
-
 
 const route = useRoute()
 const examStore = useExam()
@@ -19,15 +16,9 @@ onMounted(() => {
 
 </script>
 <template>
-  <teleport to="body">
-    <WebcamFeed />
-  </teleport>
-  <teleport to="body">
-    <FullScreenMode />
-  </teleport>
   <div v-if="examStore.details_resource.loading">Loading...</div>
   <div v-else-if="examStore.exam_creds_invalid"> Invalid exam credentials</div>
-  <div v-else-if="examStore.details_resource.data" class="flex flex-col ">
+  <div v-else-if="examStore.details_resource.data" class="flex flex-col p-4">
     <!--  exam title  -->
     <div class="text-2xl font-bold w-full text-center mt-3 mb-10">{{ examStore.details_resource.data.exam.title }}</div>
     <!--  exam details  -->
@@ -76,7 +67,9 @@ onMounted(() => {
         'text-green-500': examStore.details_resource.data.session.is_valid
       }"
         class="font-medium">{{ examStore.details_resource.data.session.notice }}</p>
-      <Button :disabled="!examStore.details_resource.data.session.is_valid" theme="gray"
+      <Button :disabled="!examStore.details_resource.data.session.is_valid"
+              :loading="examStore.question_details_resource.loading"
+              theme="gray"
               variant="solid"
               @click="examStore.start_exam">
         {{ examStore.details_resource.data.session.is_started ? 'Resume Exam' : 'Start Exam' }}

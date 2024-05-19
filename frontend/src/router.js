@@ -4,13 +4,13 @@ const routes = [
   {
     path: '/:info',
     name: 'Exam',
-    component: () => import('@/views/pages/ExamWelcome.vue'),
-  },
+    component: () => import('@/views/pages/Exam.vue')
+  }
 ]
 
 let router = createRouter({
   history: createWebHistory('/frontend'),
-  routes,
+  routes
 })
 
 export default router

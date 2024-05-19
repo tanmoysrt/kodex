@@ -25,7 +25,6 @@ function isFullScreen() {
   return !!document.fullscreenElement
 }
 
-
 async function monitor() {
   if (!exam_store.is_full_screen_mode_enabled) return
   if (isFullScreen()) {
@@ -55,7 +54,6 @@ onMounted(() => {
 </script>
 
 <template>
-
   <div v-if="exam_store.is_full_screen_mode_enabled && !is_full_screen_enabled"
        class="z-20 bg-white opacity-90 absolute top-0 left-0 w-full h-full flex flex-col gap-8 justify-center items-center">
     <Button icon-left="monitor" variant="solid" @click="enable_full_screen_mode">
@@ -66,7 +64,6 @@ onMounted(() => {
       Else, exam will be automatically submitted and flagged as failed
     </div>
   </div>
-
 </template>
 
 <style scoped>

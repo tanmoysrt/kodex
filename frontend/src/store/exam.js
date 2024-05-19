@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { createResource, toast } from 'frappe-ui'
-import { nextTick, ref, shallowRef } from 'vue'
-import { getConfig } from 'frappe-ui/src/utils/config'
+import { computed, nextTick, ref, shallowRef } from 'vue'
 
 export const useExam = defineStore('exam_management', () => {
   const exam_creds_base64 = shallowRef('')
@@ -24,6 +23,18 @@ export const useExam = defineStore('exam_management', () => {
     method: 'POST',
     url: 'kodex.api.submit_proctoring_images'
   })
+  const question_details_resource = createResource({
+    method: 'POST',
+    url: 'kodex.api.download_questions',
+    onSuccess: on_success_fetch_question_details
+  })
+  const question_series = ref([])
+  const questions = ref({})
+  const answers = ref({})
+  const current_question_index = ref(0)
+  const end_time = ref(null)
+  const start_time = ref(null)
+  const time_left = ref('--:--')
 
   const fetch_exam_registration_resource = (credsBase64) => {
     try {
@@ -136,6 +147,28 @@ export const useExam = defineStore('exam_management', () => {
     }, (60 / images_per_minute) * 1000)
   }
 
+  function on_success_fetch_question_details(data) {
+    // actual exam started
+    is_exam_started.value = true
+    question_series.value = data.question_series
+    questions.value = data.questions
+    answers.value = data.answers
+    // start time_left timer
+    start_time.value = details_resource.data.session.candidate_started_on != null ? new Date(details_resource.data.session.candidate_started_on) : start_time.value
+    end_time.value = new Date(start_time.value.getTime() + details_resource.data.session.login_window_minutes * 60000)
+    setInterval(function() {
+      time_left.value = formattedTimeLeft()
+    }, 1000)
+  }
+
+  const formattedTimeLeft = () => {
+    const currentTime = new Date()
+    const timeDiff = end_time.value - currentTime
+    const totalSeconds = Math.max(0, Math.floor(timeDiff / 1000))
+    const minutes = Math.floor(totalSeconds / 60)
+    const seconds = totalSeconds % 60
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+  }
 
   function start_exam() {
     document.getElementsByTagName('body')[0].style.backgroundImage = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='200px' width='200px'><text transform='translate(20, 100) rotate(-45)' fill='rgb(210,210,210)' font-size='20'>${details_resource.data.candidate.email}</text></svg>");`
@@ -180,8 +213,29 @@ export const useExam = defineStore('exam_management', () => {
       document.body.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(svgString)}")`
     }
     start_video_proctoring()
-    is_exam_started.value = true
+    start_time.value = new Date()
+    question_details_resource.fetch({
+      exam_registration_name: details_resource.data.registration_name,
+      auth_token: auth_token.value
+    })
   }
+
+  const switch_question = (index) => {
+    current_question_index.value = index
+  }
+
+  const submit_answer = (answer) => {
+    answers.value[current_question.value.name] = answer
+  }
+
+  const get_current_question_answer = computed(() => {
+    if (current_question.value.name in answers.value) {
+      return answers.value[current_question.value.name]
+    }
+    return ''
+  })
+
+  const current_question = computed(() => questions.value[question_series.value[current_question_index.value]])
 
   return {
     fetch_exam_registration_resource,
@@ -192,6 +246,18 @@ export const useExam = defineStore('exam_management', () => {
     is_exam_started,
     set_locally_full_screen_mode_enabled,
     set_locally_webcam_feed_enabled,
-    start_exam
+    question_details_resource,
+    start_exam,
+    questions,
+    answers,
+    question_series,
+    current_question_index,
+    time_left,
+    start_time,
+    end_time,
+    switch_question,
+    current_question,
+    submit_answer,
+    get_current_question_answer
   }
 })
