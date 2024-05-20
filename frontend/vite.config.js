@@ -16,8 +16,7 @@ export default defineConfig({
   },
   build: {
     outDir: `../${path.basename(path.resolve('..'))}/public/frontend`,
-    emptyOutDir: true,
-    target: 'es2015'
+    emptyOutDir: true
   },
   optimizeDeps: {
     include: ['frappe-ui > feather-icons', 'showdown', 'engine.io-client']

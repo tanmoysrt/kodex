@@ -35,6 +35,8 @@ export const useExam = defineStore('exam_management', () => {
   const end_time = ref(null)
   const start_time = ref(null)
   const time_left = ref('--:--')
+  const available_languages = ref([])
+  const current_language = ref('')
 
   const fetch_exam_registration_resource = (credsBase64) => {
     try {
@@ -221,7 +223,13 @@ export const useExam = defineStore('exam_management', () => {
   }
 
   const switch_question = (index) => {
+    // set coding question params
+    if (questions.value[question_series.value[index]].type === 'coding') {
+      available_languages.value = questions.value[question_series.value[index]].coding_question.available_languages
+      current_language.value = questions.value[question_series.value[index]].coding_question.available_languages[0].id
+    }
     current_question_index.value = index
+
   }
 
   const submit_answer = (answer) => {
@@ -237,6 +245,10 @@ export const useExam = defineStore('exam_management', () => {
 
   const current_question = computed(() => questions.value[question_series.value[current_question_index.value]])
 
+  const switch_language = (event) => {
+    current_language.value = event.target.value
+  }
+  
   return {
     fetch_exam_registration_resource,
     exam_creds_invalid,
@@ -258,6 +270,9 @@ export const useExam = defineStore('exam_management', () => {
     switch_question,
     current_question,
     submit_answer,
-    get_current_question_answer
+    get_current_question_answer,
+    available_languages,
+    current_language,
+    switch_language
   }
 })

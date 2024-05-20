@@ -15,5 +15,4 @@ app.use(FrappeUI)
 setConfig('resourceFetcher', frappeRequest)
 app.use(resourcesPlugin)
 
-
 app.mount('#app')

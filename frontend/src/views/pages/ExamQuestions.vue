@@ -1,9 +1,10 @@
 <script setup>
 
 import { useExam } from '@/store/exam'
-import { Button, FormControl } from 'frappe-ui'
+import { Button, FormControl, Select } from 'frappe-ui'
 import { computed, ref } from 'vue'
 import MarkdownRenderer from '@/views/components/MarkdownRenderer.vue'
+import CodeEditor from '@/views/partials/CodeEditor.vue'
 
 const examStore = useExam()
 const questionPanelWidthPercentage = ref(50)
@@ -37,7 +38,7 @@ const onSelectResizer = () => {
 </script>
 
 <template>
-  <div class="flex flex-col p-6 h-screen overflow-hidden">
+  <div class="flex flex-col p-6 h-screen max-h-screen">
     <!--  Top bar  -->
     <div class="flex flex-row justify-between items-center">
       <div class="text-2xl font-bold">{{ examStore.details_resource.data.exam.title }}</div>
@@ -94,13 +95,29 @@ const onSelectResizer = () => {
                 {{ option }}
               </div>
             </div>
-
+          </div>
+          <!--      Code question      -->
+          <div v-else-if="examStore.current_question.type === 'coding'" class="h-full flex flex-col">
+            <!--     Language Switcher       -->
+            <div class="flex flex-row w-full justify-end mb-2">
+              <p class="mr-3 font-medium">Language</p>
+              <Select
+                :options="examStore.available_languages.map((x) => ({ label: x.title, value: x.id }))"
+                :value="examStore.current_language"
+                variant="outline"
+                @change="examStore.switch_language"
+              />
+            </div>
+            <CodeEditor :code="examStore.get_current_question_answer"
+                        :current-language="examStore.current_language"
+                        :on-code-changed="(code) => examStore.submit_answer(code)"
+            />
           </div>
         </div>
       </div>
     </div>
     <!--  Question Switcher  -->
-    <div class="flex flex-row items-center justify-center mt-4 gap-3">
+    <div class="flex flex-row items-center justify-center mt-4 mb-3 gap-3">
       <Button icon-left="arrow-left" variant="outline">Previous</Button>
       <div v-for="(_, index) in examStore.question_series" :key="index"
            :class="{

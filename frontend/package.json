@@ -8,6 +8,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-cpp": "^6.0.2",
+    "@codemirror/lang-java": "^6.0.1",
+    "@codemirror/lang-javascript": "^6.2.2",
+    "@codemirror/lang-python": "^6.1.6",
+    "@codemirror/theme-one-dark": "^6.1.2",
+    "codemirror": "^6.0.1",
     "feather-icons": "^4.28.0",
     "frappe-ui": "^0.1.54",
     "markdown-it": "^14.1.0",
@@ -18,8 +24,10 @@
     "markdown-it-sub": "^2.0.0",
     "markdown-it-sup": "^2.0.0",
     "markdown-it-task-lists": "^2.1.1",
+    "monaco-editor": "^0.45.0",
     "pinia": "^2.1.7",
     "vue": "^3.3.9",
+    "vue-codemirror": "^6.1.1",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
