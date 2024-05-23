@@ -123,10 +123,10 @@ const onSelectResizer = () => {
       <Button icon-left="arrow-left" variant="outline" @click="examStore.previous_question"
         :disabled="!examStore.previous_question_button_enbaled">Previous</Button>
       <div v-for="(_, index) in examStore.question_series" :key="index" :class="{
-        'border': examStore.current_question_index !== index,
-        'border-2 border-black': examStore.current_question_index === index
+        '!border-2 border-black': examStore.current_question_index === index,
+        '!border-2 border-green-500': examStore.answers[examStore.question_series[index]] !== undefined && examStore.current_question_index !== index
       }"
-        class="flex items-center justify-center h-full text-base transition-all rounded-sm cursor-pointer aspect-square"
+        class="flex items-center justify-center h-full text-base transition-all border rounded-sm cursor-pointer aspect-square"
         @click="examStore.switch_question(index)">
         {{ index + 1 }}
       </div>
