@@ -38,19 +38,12 @@ const view = shallowRef()
 const handleReady = (payload) => {
   view.value = payload.view
 }
+
+
 </script>
 
 <template>
-  <Codemirror
-    :autofocus="true"
-    :extensions="extensions"
-    :indent-with-tab="true"
-    :model-value="props.code"
-    :style="{ height: '100%' }"
-    :tab-size="2"
-    class="rounded-md"
-    placeholder="Write your code here"
-    @change="props.onCodeChanged"
-    @ready="handleReady"
-  />
+  <Codemirror :autofocus="true" :extensions="extensions" :indent-with-tab="true" :model-value="props.code"
+    :style="{ height: '100%' }" :tab-size="2" class="rounded-md" :auto-distroy="true" placeholder="Write your code here"
+    @change="props.onCodeChanged" @ready="handleReady" />
 </template>

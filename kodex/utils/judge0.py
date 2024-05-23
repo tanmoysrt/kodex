@@ -33,9 +33,7 @@ def fetch_submission_result(token) -> [bool, dict]:
 		judge0_base_url = judge0_base_url.rstrip("/")
 		response = requests.get(f"{judge0_base_url}/submissions/{token}?base64_encoded=true&fields=stdout,stderr,time,memory,status,compile_output", headers=headers)
 		if response.status_code != 200:
-			frappe.log_error(f"Error fetching submissions from Judge0", message=response.text)
 			return [False, {}]
 		return [True, response.json()]
 	except Exception as e:
-		frappe.log_error(f"Error fetching submissions from Judge0", message=e)
 		return [False, {}]

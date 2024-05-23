@@ -31,6 +31,7 @@ export const useExam = defineStore('exam_management', () => {
   const question_series = ref([])
   const questions = ref({})
   const answers = ref({})
+  const tmp_answers_store = ref({})
   const current_question_index = ref(0)
   const end_time = ref(null)
   const start_time = ref(null)
@@ -40,6 +41,7 @@ export const useExam = defineStore('exam_management', () => {
   const test_cases_result_status = ref({})
   // "id": 1 (success), 0 (failed), 2 (running), -1 or not available none
   const test_cases_result = ref({})
+  const is_answer_submitting = ref(false)
 
   const fetch_exam_registration_resource = (credsBase64) => {
     try {
@@ -158,6 +160,7 @@ export const useExam = defineStore('exam_management', () => {
     question_series.value = data.question_series
     questions.value = data.questions
     answers.value = data.answers
+    switch_question(0)
     // start time_left timer
     start_time.value = details_resource.data.session.candidate_started_on != null ? new Date(details_resource.data.session.candidate_started_on) : start_time.value
     end_time.value = new Date(start_time.value.getTime() + details_resource.data.session.login_window_minutes * 60000)
@@ -225,23 +228,45 @@ export const useExam = defineStore('exam_management', () => {
     })
   }
 
+  const previous_question_button_enbaled = computed(() => current_question_index.value > 0)
+  const next_question_button_enabled = computed(() => current_question_index.value + 1 < question_series.value.length)
+
+  const previous_question = () => {
+    if (current_question_index.value <= 0) return
+    switch_question(current_question_index.value - 1)
+  }
+
+  const next_question = () => {
+    if (current_question_index.value + 1 >= question_series.value.length) return
+    switch_question(current_question_index.value + 1)
+  }
+
   const switch_question = (index) => {
+    let question = questions.value[question_series.value[index]];
+    // clear answers if not submitted, else take the answer from submitted answers mapping
+    if (question.name in answers.value) {
+      tmp_answers_store.value[question.name] = answers.value[question.name]
+    } else {
+      tmp_answers_store.value[question.name] = ""
+    }
+    // clear results of coding
+    test_cases_result.value = {}
+    test_cases_result_status.value = {}
     // set coding question params
-    if (questions.value[question_series.value[index]].type === 'coding') {
+    if (question.type === 'coding') {
       available_languages.value = questions.value[question_series.value[index]].coding_question.available_languages
       current_language.value = questions.value[question_series.value[index]].coding_question.available_languages[0].id
     }
     current_question_index.value = index
-
   }
 
-  const submit_answer = (answer) => {
-    answers.value[current_question.value.name] = answer
+  const temp_store_answer = (answer) => {
+    tmp_answers_store.value[current_question.value.name] = answer
   }
 
   const get_current_question_answer = computed(() => {
-    if (current_question.value.name in answers.value) {
-      return answers.value[current_question.value.name]
+    if (current_question.value.name in tmp_answers_store.value) {
+      return tmp_answers_store.value[current_question.value.name]
     }
     return ''
   })
@@ -305,9 +330,67 @@ export const useExam = defineStore('exam_management', () => {
   }
 
   function run_all_test_cases() {
+    if (get_current_question_answer.value === '') {
+      toast({
+        title: 'Code run failed',
+        position: 'top-right',
+        text: 'You can\'t submit blank code',
+        icon: 'x-circle',
+        iconClasses: 'text-red-500'
+      })
+      return
+    }
     for (let i = 0; i < current_question.value.coding_question.test_cases.length; i++) {
       test_code(i)
     }
+  }
+
+  async function submit_answer() {
+    if (!get_current_question_answer.value) {
+      toast({
+        title: 'Empty Answer',
+        position: 'top-center',
+        text: 'Write / select answer',
+        icon: 'x-circle',
+        iconClasses: 'text-red-500'
+      })
+      return
+    }
+    const question = current_question.value.name;
+    const answer = get_current_question_answer.value;
+    is_answer_submitting.value = true;
+    const request = createResource({
+      method: 'POST',
+      url: 'kodex.api.submit_answer',
+      onSuccess: async function () {
+        answers.value[question] = answer
+        next_question()
+        is_answer_submitting.value = false;
+        toast({
+          title: 'Answer Submitted',
+          position: 'top-center',
+          icon: 'check-circle',
+          iconClasses: 'text-green-500'
+        })
+      },
+      onError: async function () {
+        toast({
+          title: 'Failed to submit',
+          position: 'top-center',
+          text: 'Retry to submit',
+          icon: 'x-circle',
+          iconClasses: 'text-red-500'
+        })
+        is_answer_submitting.value = false;
+      },
+    })
+    request.fetch({
+      exam_registration_name: details_resource.data.registration_name,
+      auth_token: auth_token.value,
+      question_name: current_question.value.name,
+      answer_base64: btoa(get_current_question_answer.value)
+    })
+    return request.promise
   }
 
   return {
@@ -322,7 +405,7 @@ export const useExam = defineStore('exam_management', () => {
     question_details_resource,
     start_exam,
     questions,
-    answers,
+    tmp_answers_store,
     question_series,
     current_question_index,
     time_left,
@@ -330,7 +413,7 @@ export const useExam = defineStore('exam_management', () => {
     end_time,
     switch_question,
     current_question,
-    submit_answer,
+    temp_store_answer,
     get_current_question_answer,
     available_languages,
     current_language,
@@ -338,6 +421,13 @@ export const useExam = defineStore('exam_management', () => {
     test_code,
     test_cases_result_status,
     test_cases_result,
-    run_all_test_cases
+    run_all_test_cases,
+    previous_question_button_enbaled,
+    next_question_button_enabled,
+    previous_question,
+    next_question,
+    submit_answer,
+    is_answer_submitting,
+    answers
   }
 })

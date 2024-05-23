@@ -21,14 +21,14 @@ class ExaminationQuestionAttempt(Document):
 	@staticmethod
 	def record(exam_candidate_registration_name, question_name, answer):
 		# try to find out if with same qstn attempt exists
-		r = frappe.get_doc("Examination Question Attempt", {
-			"examination_candidate_registration": exam_candidate_registration_name,
-			"question": question_name
-		})
-		if r:
+		try:
+			r = frappe.get_doc("Examination Question Attempt", {
+				"examination_candidate_registration": exam_candidate_registration_name,
+				"question": question_name
+			})
 			r.submitted_answer = answer
 			r.save(ignore_permissions=True)
-		else:
+		except Exception as e:
 			r = frappe.new_doc("Examination Question Attempt")
 			r.examination_candidate_registration = exam_candidate_registration_name
 			r.question = question_name
