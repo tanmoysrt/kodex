@@ -44,9 +44,12 @@ def check_code_submission_results():
 				doc.debug_judge0_status_id = result["status"]["id"]
 				doc.debug_judge0_status_description = result["status"]["description"]
 			else:
-				doc.status = "failed"
-				doc.error = (base64.b64decode(result["stderr"]).decode("utf-8") if result["stderr"] else "").rstrip()
-				doc.compile_output = (base64.b64decode(result["compile_output"]).decode("utf-8") if result["compile_output"] else "").rstrip()
-				doc.debug_judge0_status_id = (result["status"]["id"]).rstrip()
-				doc.debug_judge0_status_description = (result["status"]["description"]).rstrip()
-			doc.save()
+				try:
+					doc.status = "failed"
+					doc.error = (base64.b64decode(result["stderr"]).decode("utf-8") if result["stderr"] else "").rstrip()
+					doc.compile_output = (base64.b64decode(result["compile_output"]).decode("utf-8") if result["compile_output"] else "").rstrip()
+					doc.debug_judge0_status_id = result["status"]["id"]
+					doc.debug_judge0_status_description = (result["status"]["description"]).rstrip()
+				except Exception as e:
+					frappe.log_error("failed to update code runner status", message=e)
+			doc.save(ignore_permissions=True)

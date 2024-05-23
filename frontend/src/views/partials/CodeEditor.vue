@@ -25,27 +25,9 @@ const props = defineProps({
 })
 
 const languageSDK = {
-  '4': cpp(),
-  '5': cpp(),
-  '6': cpp(),
-  '7': cpp(),
-  '8': cpp(),
-  '9': cpp(),
-  '10': cpp(),
-  '11': cpp(),
-  '12': cpp(),
-  '13': cpp(),
-  '14': cpp(),
-  '15': cpp(),
-  '26': java(),
-  '27': java(),
-  '28': java(),
-  '29': javascript(),
-  '30': javascript(),
-  '34': python(),
-  '35': python(),
-  '36': python(),
-  '37': python()
+  '62': java(),
+  '63': javascript(),
+  '71': python(),
 }
 
 const extensions = computed(() => {
@@ -64,11 +46,11 @@ const handleReady = (payload) => {
     :extensions="extensions"
     :indent-with-tab="true"
     :model-value="props.code"
-    :on-change="props.onCodeChanged"
     :style="{ height: '100%' }"
     :tab-size="2"
     class="rounded-md"
     placeholder="Write your code here"
+    @change="props.onCodeChanged"
     @ready="handleReady"
   />
 </template>

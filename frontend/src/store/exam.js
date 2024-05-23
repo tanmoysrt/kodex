@@ -37,6 +37,9 @@ export const useExam = defineStore('exam_management', () => {
   const time_left = ref('--:--')
   const available_languages = ref([])
   const current_language = ref('')
+  const test_cases_result_status = ref({})
+  // "id": 1 (success), 0 (failed), 2 (running), -1 or not available none
+  const test_cases_result = ref({})
 
   const fetch_exam_registration_resource = (credsBase64) => {
     try {
@@ -94,21 +97,21 @@ export const useExam = defineStore('exam_management', () => {
       })
     }
     if (details_resource.data.proctoring.copy_paste_disabled) {
-      document.addEventListener('cut', async function(e) {
+      document.addEventListener('cut', async function (e) {
         const selection = document.getSelection()
         local_clipboard.value = selection.toString()
         selection.deleteFromDocument()
         e.preventDefault()
         await nextTick()
       })
-      document.addEventListener('copy', async function(e) {
+      document.addEventListener('copy', async function (e) {
         const selection = document.getSelection()
         local_clipboard.value = selection.toString()
         selection.deleteFromDocument()
         e.preventDefault()
         await nextTick()
       })
-      document.addEventListener('paste', async function(e) {
+      document.addEventListener('paste', async function (e) {
         e.preventDefault()
         const activeElement = document.activeElement
         let currentText = activeElement.value
@@ -120,7 +123,7 @@ export const useExam = defineStore('exam_management', () => {
         activeElement.selectionEnd = cursorPosition
       })
       // disable ctrl+z and ctrl+y
-      document.addEventListener('keydown', function(e) {
+      document.addEventListener('keydown', function (e) {
         if (e.ctrlKey && (e.key === 'Z' || e.key === 'Y' || e.key === 'z' || e.key === 'y')) {
           e.preventDefault()
         }
@@ -131,7 +134,7 @@ export const useExam = defineStore('exam_management', () => {
   function start_video_proctoring() {
     if (!details_resource.data.proctoring.video_proctoring.enabled) return
     const images_per_minute = details_resource.data.proctoring.video_proctoring.no_of_pictures_per_minute
-    setInterval(function() {
+    setInterval(function () {
       try {
         const video = document.getElementById('webcam')
         const canvas = document.createElement('canvas')
@@ -158,7 +161,7 @@ export const useExam = defineStore('exam_management', () => {
     // start time_left timer
     start_time.value = details_resource.data.session.candidate_started_on != null ? new Date(details_resource.data.session.candidate_started_on) : start_time.value
     end_time.value = new Date(start_time.value.getTime() + details_resource.data.session.login_window_minutes * 60000)
-    setInterval(function() {
+    setInterval(function () {
       time_left.value = formattedTimeLeft()
     }, 1000)
   }
@@ -248,7 +251,65 @@ export const useExam = defineStore('exam_management', () => {
   const switch_language = (event) => {
     current_language.value = event.target.value
   }
-  
+
+  const test_code = (index) => {
+    if (get_current_question_answer.value === '') {
+      toast({
+        title: 'Code run failed',
+        position: 'top-right',
+        text: 'You can\'t submit blank code',
+        icon: 'x-circle',
+        iconClasses: 'text-red-500'
+      })
+      return
+    }
+    const test_case = current_question.value.coding_question.test_cases[index]
+    test_cases_result_status.value[test_case.name] = 2
+    const request = createResource({
+      method: 'POST',
+      url: 'kodex.api.run_code',
+      onSuccess: async function (response) {
+        let code_runner_id = response.id
+        let code_runner_access_token = response.access_token
+        let result_api = createResource({
+          method: 'POST',
+          url: 'kodex.api.get_code_result',
+          onSuccess: function (response) {
+            if (response.status === 'failed') {
+              test_cases_result_status.value[test_case.name] = 0
+            } else if (response.status === 'completed') {
+              test_cases_result_status.value[test_case.name] = 1
+            }
+            test_cases_result.value[test_case.name] = response
+          }
+        })
+        while (test_cases_result_status.value[test_case.name] === 2) {
+          await new Promise(resolve => setTimeout(resolve, 3000))
+          result_api.fetch({
+            exam_registration_name: details_resource.data.registration_name,
+            auth_token: auth_token.value,
+            code_runner_id: code_runner_id,
+            code_runner_access_token: code_runner_access_token
+          })
+          await result_api.promise
+        }
+      }
+    })
+    request.fetch({
+      exam_registration_name: details_resource.data.registration_name,
+      auth_token: auth_token.value,
+      source_code_base64: btoa(get_current_question_answer.value),
+      language_id: current_language.value,
+      input_base64: btoa(test_case.input)
+    })
+  }
+
+  function run_all_test_cases() {
+    for (let i = 0; i < current_question.value.coding_question.test_cases.length; i++) {
+      test_code(i)
+    }
+  }
+
   return {
     fetch_exam_registration_resource,
     exam_creds_invalid,
@@ -273,6 +334,10 @@ export const useExam = defineStore('exam_management', () => {
     get_current_question_answer,
     available_languages,
     current_language,
-    switch_language
+    switch_language,
+    test_code,
+    test_cases_result_status,
+    test_cases_result,
+    run_all_test_cases
   }
 })

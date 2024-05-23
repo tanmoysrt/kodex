@@ -5,6 +5,7 @@ import { Button, FormControl, Select } from 'frappe-ui'
 import { computed, ref } from 'vue'
 import MarkdownRenderer from '@/views/components/MarkdownRenderer.vue'
 import CodeEditor from '@/views/partials/CodeEditor.vue'
+import TestCase from '@/views/partials/TestCase.vue'
 
 const examStore = useExam()
 const questionPanelWidthPercentage = ref(50)
@@ -38,11 +39,11 @@ const onSelectResizer = () => {
 </script>
 
 <template>
-  <div class="flex flex-col p-6 h-screen max-h-screen">
+  <div class="flex flex-col h-screen max-h-screen p-6">
     <!--  Top bar  -->
-    <div class="flex flex-row justify-between items-center">
+    <div class="flex flex-row items-center justify-between">
       <div class="text-2xl font-bold">{{ examStore.details_resource.data.exam.title }}</div>
-      <div class="flex flex-row gap-5 items-center">
+      <div class="flex flex-row items-center gap-5">
         <p class="text-[1.8rem] font-bold">{{ examStore.time_left }}</p>
         <Button theme="green" variant="solid">
           Submit Exam
@@ -51,31 +52,20 @@ const onSelectResizer = () => {
     </div>
     <!--  Content  -->
     <div class="flex flex-row h-full gap-4 mt-5">
-      <div id="exam-questions-container" class="flex flex-row h-full gap-2 w-full">
-        <div :style="`width: ${questionPanelWidthPercentage}%`" class="border-2 h-full rounded-md p-4">
-          <MarkdownRenderer
-            :source="examStore.current_question.description" />
+      <div id="exam-questions-container" class="flex flex-row w-full h-full gap-2">
+        <div :style="`width: ${questionPanelWidthPercentage}%`" class="h-full p-4 border-2 rounded-md">
+          <MarkdownRenderer :source="examStore.current_question.description" />
         </div>
         <div class="w-[5px] bg-gray-400 h-full rounded-md cursor-col-resize hover:bg-gray-500 focus:bg-gray-500"
-             @mousedown="onSelectResizer"></div>
-        <div :style="`width: ${answerPanelWidthPercentage}%`" class="h-full rounded-md border-2 p-4">
+          @mousedown="onSelectResizer"></div>
+        <div :style="`width: ${answerPanelWidthPercentage}%`" class="h-full p-4 border-2 rounded-md">
           <!--     Answers Panel   -->
           <!--    Text question      -->
           <div v-if="examStore.current_question.type === 'text'">
-            <p class="text-black font-medium mb-3">Write down the answer here.</p>
-            <FormControl
-              :disabled="false"
-              label=""
-              placeholder="Placeholder"
-              rows="30"
-              size="lg"
-              type="textarea"
-              variant="outline"
-            />
-            <div v-if="examStore.current_question" class="flex w-full justify-end mt-2 gap-2">
-              <Button theme="gray" variant="outline">
-                Skip this question
-              </Button>
+            <p class="mb-3 font-medium text-black">Write down the answer here.</p>
+            <FormControl :disabled="false" label="" placeholder="Placeholder" rows="30" size="lg" type="textarea"
+              variant="outline" />
+            <div v-if="examStore.current_question" class="flex justify-end w-full gap-2 mt-2">
               <Button theme="gray" variant="solid">
                 Submit & Proceed to Next Question
               </Button>
@@ -83,50 +73,53 @@ const onSelectResizer = () => {
           </div>
           <!--    Multiple choice question      -->
           <div v-else-if="examStore.current_question.type === 'mcq'">
-            <p class="text-black font-medium mb-3">Select the correct answer</p>
+            <p class="mb-3 font-medium text-black">Select the correct answer</p>
             <div class="flex flex-col gap-3">
-              <div v-for="(option, index) in examStore.current_question.mcq_question_choices" :key="index"
-                   :class="{
-                    'border-black': examStore.get_current_question_answer === option,
-                   }"
-                   class="px-4 py-2 rounded-md hover:ring-1 cursor-pointer ring-gray-400 border-2 transition-all"
-                   @click="examStore.submit_answer(option)"
-              >
+              <div v-for="(option, index) in examStore.current_question.mcq_question_choices" :key="index" :class="{
+                'border-black': examStore.get_current_question_answer === option,
+              }" class="px-4 py-2 transition-all border-2 rounded-md cursor-pointer hover:ring-1 ring-gray-400"
+                @click="examStore.submit_answer(option)">
                 {{ option }}
               </div>
             </div>
+            <div class="flex justify-end w-full gap-2 mt-5">
+              <Button theme="gray" variant="solid">
+                Submit & Proceed to Next Question
+              </Button>
+            </div>
           </div>
           <!--      Code question      -->
-          <div v-else-if="examStore.current_question.type === 'coding'" class="h-full flex flex-col">
+          <div v-else-if="examStore.current_question.type === 'coding'" class="flex flex-col h-full">
             <!--     Language Switcher       -->
-            <div class="flex flex-row w-full justify-end mb-2">
+            <div class="flex flex-row justify-end w-full mb-2">
               <p class="mr-3 font-medium">Language</p>
-              <Select
-                :options="examStore.available_languages.map((x) => ({ label: x.title, value: x.id }))"
-                :value="examStore.current_language"
-                variant="outline"
-                @change="examStore.switch_language"
-              />
+              <Select :options="examStore.available_languages.map((x) => ({ label: x.title, value: x.id }))"
+                :value="examStore.current_language" variant="outline" @change="examStore.switch_language"></Select>
             </div>
-            <CodeEditor :code="examStore.get_current_question_answer"
-                        :current-language="examStore.current_language"
-                        :on-code-changed="(code) => examStore.submit_answer(code)"
-            />
+            <CodeEditor :code="examStore.get_current_question_answer" :current-language="examStore.current_language"
+              :on-code-changed="(code) => examStore.submit_answer(code)" />
+            <div class="flex flex-wrap w-full gap-2 mt-2">
+              <TestCase v-for="(_, index) in examStore.current_question.coding_question.test_cases" :key="index"
+                :index="index" />
+            </div>
+            <div class="flex flex-row justify-end my-2">
+              <Button icon-left="play" theme="gray" variant="outline" @click="examStore.run_all_test_cases">
+                Run All Codes
+              </Button>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <!--  Question Switcher  -->
-    <div class="flex flex-row items-center justify-center mt-4 mb-3 gap-3">
+    <div class="flex flex-row items-center justify-center gap-3 mt-4">
       <Button icon-left="arrow-left" variant="outline">Previous</Button>
-      <div v-for="(_, index) in examStore.question_series" :key="index"
-           :class="{
-          'border': examStore.current_question_index !== index,
-          'border-2 border-black' : examStore.current_question_index === index
-        }"
-           class="h-full aspect-square rounded-sm flex justify-center items-center text-base cursor-pointer transition-all"
-           @click="examStore.switch_question(index)"
-      >
+      <div v-for="(_, index) in examStore.question_series" :key="index" :class="{
+        'border': examStore.current_question_index !== index,
+        'border-2 border-black': examStore.current_question_index === index
+      }"
+        class="flex items-center justify-center h-full text-base transition-all rounded-sm cursor-pointer aspect-square"
+        @click="examStore.switch_question(index)">
         {{ index + 1 }}
       </div>
       <Button icon-right="arrow-right" variant="outline">Next</Button>
@@ -134,6 +127,4 @@ const onSelectResizer = () => {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
