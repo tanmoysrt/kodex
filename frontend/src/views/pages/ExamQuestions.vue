@@ -1,7 +1,7 @@
 <script setup>
 
 import { useExam } from '@/store/exam'
-import { Button, FormControl, Select } from 'frappe-ui'
+import { Button, FormControl, Select, Dialog } from 'frappe-ui'
 import { computed, ref } from 'vue'
 import MarkdownRenderer from '@/views/components/MarkdownRenderer.vue'
 import CodeEditor from '@/views/partials/CodeEditor.vue'
@@ -11,6 +11,7 @@ const examStore = useExam()
 const questionPanelWidthPercentage = ref(50)
 const answerPanelWidthPercentage = computed(() => 100 - questionPanelWidthPercentage.value)
 const resizerBusy = ref(false)
+const examSubmissionDialogOpen = ref(false)
 
 const resizeTabs = (e) => {
   e.preventDefault()
@@ -36,6 +37,10 @@ const onSelectResizer = () => {
     resizerBusy.value = false
   })
 }
+
+const openSubmitDialog = () => {
+  examSubmissionDialogOpen.value = true
+}
 </script>
 
 <template>
@@ -45,7 +50,7 @@ const onSelectResizer = () => {
       <div class="text-2xl font-bold">{{ examStore.details_resource.data.exam.title }}</div>
       <div class="flex flex-row items-center gap-5">
         <p class="text-[1.8rem] font-bold">{{ examStore.time_left }}</p>
-        <Button theme="green" variant="solid">
+        <Button theme="green" variant="solid" @click="openSubmitDialog">
           Submit Exam
         </Button>
       </div>
@@ -134,6 +139,26 @@ const onSelectResizer = () => {
         :disabled="!examStore.next_question_button_enabled">Next</Button>
     </div>
   </div>
+  <!-- Exam submission confirmation dialog -->
+  <Dialog v-model="examSubmissionDialogOpen">
+    <template #body-title>
+      <p class="font-medium">Submit Exam</p>
+    </template>
+    <template #body-content>
+      Would you like to finish and submit the exam?
+    </template>
+    <template #actions>
+      <div class="flex flex-row justify-end w-full">
+        <Button class="mr-2" @click="examSubmissionDialogOpen = false"
+          :disable="examStore.submit_exam_resource.loading">
+          Close
+        </Button>
+        <Button variant="solid" :loading="examStore.submit_exam_resource.loading" @click="examStore.submit_exam">
+          Submit Exam
+        </Button>
+      </div>
+    </template>
+  </Dialog>
 </template>
 
 <style scoped></style>

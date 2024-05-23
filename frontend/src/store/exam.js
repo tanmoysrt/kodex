@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
 import { createResource, toast } from 'frappe-ui'
 import { computed, nextTick, ref, shallowRef } from 'vue'
+import { useRouter } from 'vue-router'
 
 export const useExam = defineStore('exam_management', () => {
+  const router = useRouter()
   const exam_creds_base64 = shallowRef('')
   const exam_creds_invalid = ref(false)
   const auth_token = shallowRef('')
@@ -42,6 +44,26 @@ export const useExam = defineStore('exam_management', () => {
   // "id": 1 (success), 0 (failed), 2 (running), -1 or not available none
   const test_cases_result = ref({})
   const is_answer_submitting = ref(false)
+  const submit_exam_resource = createResource({
+    method: 'POST',
+    url: 'kodex.api.submit_and_end_exam',
+    onSuccess: () => {
+      router.push({
+        name: "Exam Completed",
+        replace: true
+      })
+    }
+  })
+  const submit_exam_for_malpractice = createResource({
+    method: 'POST',
+    url: 'kodex.api.end_exam_due_to_malpractice',
+    onSuccess: () => {
+      router.push({
+        name: "Exam Completed Due To Malpractice",
+        replace: true
+      })
+    }
+  })
 
   const fetch_exam_registration_resource = (credsBase64) => {
     try {
@@ -393,6 +415,13 @@ export const useExam = defineStore('exam_management', () => {
     return request.promise
   }
 
+  const submit_exam = () => {
+    submit_exam_resource.fetch({
+      exam_registration_name: details_resource.data.registration_name,
+      auth_token: auth_token.value,
+    })
+  }
+
   return {
     fetch_exam_registration_resource,
     exam_creds_invalid,
@@ -428,6 +457,9 @@ export const useExam = defineStore('exam_management', () => {
     next_question,
     submit_answer,
     is_answer_submitting,
-    answers
+    answers,
+    submit_exam_resource,
+    submit_exam,
+    submit_exam_for_malpractice
   }
 })

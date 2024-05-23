@@ -193,7 +193,7 @@ def end_exam_due_to_malpractice(exam_registration_name, auth_token, reason):
     record.check_auth(auth_token)
     is_valid_to_start, message = record.validate_for_starting_exam()
     if not is_valid_to_start:
-        return frappe.throw(message)
+        return "noaction"
     record.end_exam_due_to_malpractice(reason)
     return "ok"
 
