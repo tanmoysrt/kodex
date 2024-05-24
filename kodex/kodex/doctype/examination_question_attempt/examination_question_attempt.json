@@ -8,6 +8,7 @@
   "question",
   "examination_candidate_registration",
   "submitted_answer",
+  "language_id",
   "section_break_rbxt",
   "graded",
   "column_break_usfa",
@@ -61,11 +62,17 @@
   {
    "fieldname": "column_break_usfa",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "language_id",
+   "fieldtype": "Data",
+   "label": "Language ID",
+   "not_nullable": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-16 02:01:45.485397",
+ "modified": "2024-05-25 00:03:07.945611",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Question Attempt",

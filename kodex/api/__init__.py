@@ -90,18 +90,23 @@ def download_questions(exam_registration_name, auth_token):
     record.start_exam()
     exam_record = frappe.get_cached_doc("Examination", record.examination)
     questions = exam_record.get_questions_for_candidate()
+    answers = frappe.get_list(
+        "Examination Question Attempt",
+        filters={"examination_candidate_registration": exam_registration_name},
+        fields=["question", "submitted_answer", "language_id"],
+        ignore_permissions=True,
+    )
     return {
         "question_series": [x["name"] for x in questions],
         "questions": {x["name"]: x for x in questions},
         "answers": {
             x.question: x.submitted_answer
-            for x in frappe.get_list(
-                "Examination Question Attempt",
-                filters={"examination_candidate_registration": exam_registration_name},
-                fields=["question", "submitted_answer"],
-                ignore_permissions=True,
-            )
+            for x in answers
         },
+        "answers_language_id": {
+            x.question: x.language_id
+            for x in answers
+        }
     }
 
 
@@ -152,7 +157,7 @@ def get_code_result(
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
-def submit_answer(exam_registration_name, auth_token, question_name, answer_base64):
+def submit_answer(exam_registration_name, auth_token, question_name, answer_base64, language_id):
     record = frappe.get_cached_doc(
         "Examination Candidate Registration", exam_registration_name
     )
@@ -165,6 +170,7 @@ def submit_answer(exam_registration_name, auth_token, question_name, answer_base
             exam_registration_name,
             question_name,
             base64.b64decode(answer_base64).decode("utf-8"),
+            language_id,
         )
         return "ok"
     except Exception as e:
