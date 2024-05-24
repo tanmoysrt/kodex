@@ -11,7 +11,7 @@
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
             <p class="mt-10 text-lg font-medium">Exam Submitted Successfully</p>
-            <p class="mt-2">You will get your result within few hours</p>
+            <p class="mt-2">Results will be sent to you via email</p>
         </div>
     </div>
 </template>

@@ -2,7 +2,7 @@
 
 import { useExam } from '@/store/exam'
 import { Button } from 'frappe-ui'
-import { nextTick, onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 const exam_store = useExam()
 const is_full_screen_enabled = ref(false)
@@ -34,8 +34,8 @@ async function monitor() {
     exam_store.set_locally_full_screen_mode_enabled(true)
   } else {
     exam_store.set_locally_full_screen_mode_enabled(false)
-    if (!exam_store.is_exam_started) return
     is_full_screen_enabled.value = false
+    if (!exam_store.is_exam_started) return
     if (full_screen_mode_entered.value) {
       seconds_left_from_auto_submit.value--
     }
@@ -44,7 +44,7 @@ async function monitor() {
 
 watch(seconds_left_from_auto_submit, (val) => {
   if (val <= 0) {
-    alert('Exam has been automatically submitted and flagged as failed')
+    exam_store.submit_exam_for_malpractice('Violated Full Screen Mode')
   }
 })
 
@@ -59,7 +59,7 @@ onMounted(() => {
     <Button icon-left="monitor" variant="solid" @click="enable_full_screen_mode">
       Enable Full Screen Mode
     </Button>
-    <div v-if="full_screen_mode_entered" class="text-center">
+    <div v-if="full_screen_mode_entered && exam_store.is_exam_started" class="text-center">
       Enable Full Screen Mode within {{ seconds_left_from_auto_submit }} seconds<br>
       Else, exam will be automatically submitted and flagged as failed
     </div>

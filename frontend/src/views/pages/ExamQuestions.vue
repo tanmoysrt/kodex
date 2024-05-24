@@ -68,13 +68,13 @@ const openSubmitDialog = () => {
           <!--    Text question      -->
           <div v-if="examStore.current_question.type === 'text'">
             <p class="mb-3 font-medium text-black">Write down the answer here.</p>
-            <FormControl :disabled="false" label="" placeholder="Placeholder" rows="30" size="lg" type="textarea"
+            <FormControl :disabled="false" label="" placeholder="Placeholder" :rows="30" size="lg" type="textarea"
               variant="outline" :value="examStore.get_current_question_answer"
               @input="(e) => examStore.temp_store_answer(e.target.value)" />
             <div v-if="examStore.current_question" class="flex justify-end w-full gap-2 mt-2">
               <Button theme="gray" variant="solid" @click="examStore.submit_answer"
                 :loading="examStore.is_answer_submitting">
-                Submit & Proceed to Next
+                {{ examStore.is_last_question ? 'Submit Exam' : 'Submit & Proceed to Next' }}
               </Button>
             </div>
           </div>
@@ -92,7 +92,7 @@ const openSubmitDialog = () => {
             <div class="flex justify-end w-full gap-2 mt-5">
               <Button theme="gray" variant="solid" @click="examStore.submit_answer"
                 :loading="examStore.is_answer_submitting">
-                Submit & Proceed to Next
+                {{ examStore.is_last_question ? 'Submit Exam' : 'Submit & Proceed to Next' }}
               </Button>
             </div>
           </div>
@@ -116,7 +116,7 @@ const openSubmitDialog = () => {
               </Button>
               <Button theme="gray" variant="solid" @click="examStore.submit_answer" class="ml-2"
                 :loading="examStore.is_answer_submitting">
-                Submit & Proceed to Next
+                {{ examStore.is_last_question ? 'Submit Exam' : 'Submit & Proceed to Next' }}
               </Button>
             </div>
           </div>

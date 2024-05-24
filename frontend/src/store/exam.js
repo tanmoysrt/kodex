@@ -54,7 +54,7 @@ export const useExam = defineStore('exam_management', () => {
       })
     }
   })
-  const submit_exam_for_malpractice = createResource({
+  const submit_exam_for_malpractice_resource = createResource({
     method: 'POST',
     url: 'kodex.api.end_exam_due_to_malpractice',
     onSuccess: () => {
@@ -177,8 +177,17 @@ export const useExam = defineStore('exam_management', () => {
   }
 
   function on_success_fetch_question_details(data) {
-    // actual exam started
-    is_exam_started.value = true
+    if(!data.question_series) return
+    if(data.question_series.length === 0) {
+      toast({
+        title: 'Contact admin',
+        position: 'top-center',
+        text: 'No questions available',
+        icon: 'x-circle',
+        iconClasses: 'text-red-500'
+      })
+      return
+    }
     question_series.value = data.question_series
     questions.value = data.questions
     answers.value = data.answers
@@ -189,6 +198,8 @@ export const useExam = defineStore('exam_management', () => {
     setInterval(function () {
       time_left.value = formattedTimeLeft()
     }, 1000)
+    // start exam
+    is_exam_started.value = true
   }
 
   const formattedTimeLeft = () => {
@@ -294,6 +305,7 @@ export const useExam = defineStore('exam_management', () => {
   })
 
   const current_question = computed(() => questions.value[question_series.value[current_question_index.value]])
+  const is_last_question = computed(() => current_question_index.value + 1 >= question_series.value.length)
 
   const switch_language = (event) => {
     current_language.value = event.target.value
@@ -422,6 +434,14 @@ export const useExam = defineStore('exam_management', () => {
     })
   }
 
+  const submit_exam_for_malpractice = (reason) => {
+    submit_exam_for_malpractice_resource.fetch({
+      exam_registration_name: details_resource.data.registration_name,
+      auth_token: auth_token.value,
+      reason: reason
+    })
+  }
+
   return {
     fetch_exam_registration_resource,
     exam_creds_invalid,
@@ -460,6 +480,8 @@ export const useExam = defineStore('exam_management', () => {
     answers,
     submit_exam_resource,
     submit_exam,
-    submit_exam_for_malpractice
+    submit_exam_for_malpractice_resource,
+    submit_exam_for_malpractice,
+    is_last_question
   }
 })
