@@ -9,11 +9,6 @@
   "examination",
   "column_break_prdf",
   "candidate",
-  "result_tab",
-  "graded",
-  "column_break_xfiy",
-  "gained_marks",
-  "total_marks",
   "login_session_tab",
   "start_time",
   "end_time",
@@ -26,7 +21,12 @@
   "malpractice_info",
   "credential_tab",
   "exam_url",
-  "auth_token"
+  "auth_token",
+  "result_tab",
+  "graded",
+  "column_break_xfiy",
+  "gained_marks",
+  "total_marks"
  ],
  "fields": [
   {
@@ -159,13 +159,9 @@
   {
    "link_doctype": "Examination Question Attempt",
    "link_fieldname": "examination_candidate_registration"
-  },
-  {
-   "link_doctype": "Examination Proctoring Image",
-   "link_fieldname": "examination_candidate_registration"
   }
  ],
- "modified": "2024-05-16 00:32:58.439463",
+ "modified": "2024-05-24 14:02:10.653645",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Candidate Registration",

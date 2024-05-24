@@ -10,7 +10,9 @@
   "exam_info_section",
   "exam_name",
   "description",
+  "section_break_qhyn",
   "total_marks",
+  "column_break_ofpj",
   "total_questions",
   "proctoring_config_section",
   "full_screen_mode",
@@ -130,6 +132,14 @@
    "fieldname": "devtools_disabled",
    "fieldtype": "Check",
    "label": "Devtools Disabled"
+  },
+  {
+   "fieldname": "section_break_qhyn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_ofpj",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -139,7 +149,7 @@
    "link_fieldname": "examination"
   }
  ],
- "modified": "2024-05-24 11:48:16.168329",
+ "modified": "2024-05-24 14:00:05.145330",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination",
