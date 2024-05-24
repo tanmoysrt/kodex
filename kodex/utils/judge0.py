@@ -11,7 +11,7 @@ def submit_question(code, language_id, stdin) -> [bool, str]:
 		data = {
 			"source_code": base64.b64encode(code.encode("utf-8")).decode("utf-8"),
 			"language_id": language_id,
-			"stdin": base64.b64encode(stdin.encode("utf-8")).decode("utf-8"),
+			"stdin": base64.b64encode(stdin.encode("utf-8")).decode("utf-8") if stdin else "",
 		}
 		judge0_base_url = judge0_base_url.rstrip("/")
 		response = requests.post(f"{judge0_base_url}/submissions/?base64_encoded=true&wait=false", headers=headers, json=data)

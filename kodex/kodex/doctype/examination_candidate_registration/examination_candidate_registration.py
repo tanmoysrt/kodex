@@ -129,3 +129,18 @@ def get_proctoring_images(exam_candidate_registration_name):
         },
         pluck="file_url",
     )
+
+def auto_submit_running_exams():
+    """
+    Auto submit exams if after exam, user has not submitted and the exam is over in meantime
+    """
+    try:
+        running_exams = frappe.get_list("Examination Candidate Registration",
+                                        filters={"exam_started_on": ["is", "set"], "exam_ended_on": ["is", "not set"]}, fields=["name", "exam_started_on", "login_window_minutes"])
+        for exam in running_exams:
+            if frappe.utils.get_datetime() >= frappe.utils.get_datetime(exam.exam_started_on) + datetime.timedelta(
+                    minutes=exam.login_window_minutes) :
+                exam_record = frappe.get_doc("Examination Candidate Registration", exam.name)
+                exam_record.end_exam()
+    except Exception as e:
+        frappe.log_error(f"Error auto submitting running exams", message=e)

@@ -136,7 +136,10 @@ app_license = "apache-2.0"
 scheduler_events = {
 	"cron": {
 		"* * * * * 0/5" : [
-			"kodex.kodex.doctype.code_runner.code_runner.check_code_submission_results"
+			"kodex.kodex.doctype.code_runner.code_runner.check_code_submission_results",
+		],
+		"* * * * *": [
+			"kodex.kodex.doctype.examination_candidate_registration.examination_candidate_registration.auto_submit_running_exams"
 		]
 	}
 }

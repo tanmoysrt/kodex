@@ -15,7 +15,6 @@
   "proctoring_config_section",
   "full_screen_mode",
   "watermark_candidate_id",
-  "auto_submit_exam_on_focus_lose",
   "column_break_shkq",
   "copy_paste_disabled",
   "right_click_disabled",
@@ -111,12 +110,6 @@
    "read_only": 1
   },
   {
-   "default": "0",
-   "fieldname": "auto_submit_exam_on_focus_lose",
-   "fieldtype": "Check",
-   "label": "Auto submit exam on focus lose"
-  },
-  {
    "fieldname": "exam_info_tab",
    "fieldtype": "Tab Break",
    "label": "Exam Info"
@@ -146,7 +139,7 @@
    "link_fieldname": "examination"
   }
  ],
- "modified": "2024-05-18 17:37:28.192085",
+ "modified": "2024-05-24 11:48:16.168329",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination",
