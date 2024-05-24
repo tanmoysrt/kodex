@@ -58,9 +58,7 @@ class Examination(Document):
                                 "input": x.input,
                                 "output": x.output,
                             }
-                            for x in question_data.code_question_testset
-                            if not x.hidden
-                        ],
+                            for x in question_data.code_question_testset                        ],
                     },
                 }
             )

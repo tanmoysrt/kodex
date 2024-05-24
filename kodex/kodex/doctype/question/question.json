@@ -15,12 +15,6 @@
   "description",
   "mcq_question_tab",
   "mcq_question_choices",
-  "textual_question_tab",
-  "auto_grade_based_on_exact_matching",
-  "exact_textual_question_answer",
-  "section_break_mizh",
-  "auto_grade_based_on_keyword_matching",
-  "keywords_for_textual_question_answer",
   "code_question_tab",
   "code_question_testset",
   "available_languages"
@@ -31,6 +25,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "description": "Textual question can't be auto-graded",
    "fieldname": "type",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -38,28 +33,6 @@
    "label": "Type",
    "options": "mcq\ntext\ncoding",
    "reqd": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "auto_grade_based_on_exact_matching",
-   "fieldtype": "Check",
-   "label": "Auto Grade (based on exact matching)"
-  },
-  {
-   "default": "0",
-   "fieldname": "auto_grade_based_on_keyword_matching",
-   "fieldtype": "Check",
-   "label": "Auto Grade (based on keyword matching)"
-  },
-  {
-   "fieldname": "exact_textual_question_answer",
-   "fieldtype": "Data",
-   "label": "Exact Textual Question Answer",
-   "not_nullable": 1
-  },
-  {
-   "fieldname": "section_break_mizh",
-   "fieldtype": "Section Break"
   },
   {
    "fieldname": "marks",
@@ -94,12 +67,6 @@
    "options": "Available Coding Language"
   },
   {
-   "fieldname": "keywords_for_textual_question_answer",
-   "fieldtype": "Table",
-   "label": "Keywords for Textual Question Answer",
-   "options": "Textual Question Keyword"
-  },
-  {
    "depends_on": "eval:doc.type === 'mcq'",
    "fieldname": "mcq_question_tab",
    "fieldtype": "Tab Break",
@@ -118,17 +85,11 @@
   {
    "fieldname": "section_break_iqzn",
    "fieldtype": "Section Break"
-  },
-  {
-   "depends_on": "eval:doc.type === 'text'",
-   "fieldname": "textual_question_tab",
-   "fieldtype": "Tab Break",
-   "label": "Textual Question"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-16 02:24:08.935194",
+ "modified": "2024-05-24 14:42:11.543221",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Question",

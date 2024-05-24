@@ -9,6 +9,14 @@
   "examination",
   "column_break_prdf",
   "candidate",
+  "result_section",
+  "exam_graded",
+  "column_break_ndvm",
+  "gained_marks",
+  "column_break_tayr",
+  "total_marks",
+  "column_break_gilb",
+  "percentage",
   "login_session_tab",
   "start_time",
   "end_time",
@@ -21,12 +29,7 @@
   "malpractice_info",
   "credential_tab",
   "exam_url",
-  "auth_token",
-  "result_tab",
-  "graded",
-  "column_break_xfiy",
-  "gained_marks",
-  "total_marks"
+  "auth_token"
  ],
  "fields": [
   {
@@ -44,22 +47,6 @@
    "label": "Candidate",
    "options": "User",
    "reqd": 1
-  },
-  {
-   "fieldname": "result_tab",
-   "fieldtype": "Tab Break",
-   "label": "Result"
-  },
-  {
-   "default": "0",
-   "fieldname": "graded",
-   "fieldtype": "Check",
-   "label": "Graded",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_xfiy",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "gained_marks",
@@ -152,6 +139,37 @@
    "fieldname": "malpractice_info",
    "fieldtype": "Small Text",
    "label": "Malpractice info"
+  },
+  {
+   "fieldname": "result_section",
+   "fieldtype": "Section Break",
+   "label": "Result"
+  },
+  {
+   "fieldname": "column_break_ndvm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_tayr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "exam_graded",
+   "fieldtype": "Check",
+   "label": "Exam Graded",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_gilb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "percentage",
+   "fieldtype": "Float",
+   "is_virtual": 1,
+   "label": "Percentage",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -161,7 +179,7 @@
    "link_fieldname": "examination_candidate_registration"
   }
  ],
- "modified": "2024-05-24 14:02:10.653645",
+ "modified": "2024-05-24 14:09:17.105738",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Candidate Registration",

@@ -118,6 +118,10 @@ class ExaminationCandidateRegistration(Document):
                 return [False, "Candidate has already submitted the exam"]
         return [True, "you are good to start the exam"]
 
+    def grade_exam(self):
+        # TODO: implement this
+        pass
+
 
 @frappe.whitelist()
 def get_proctoring_images(exam_candidate_registration_name):

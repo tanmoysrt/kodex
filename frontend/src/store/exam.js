@@ -33,6 +33,7 @@ export const useExam = defineStore('exam_management', () => {
   const question_series = ref([])
   const questions = ref({})
   const answers = ref({})
+  const answers_language_id = ref({})
   const tmp_answers_store = ref({})
   const current_question_index = ref(0)
   const end_time = ref(null)
@@ -191,6 +192,7 @@ export const useExam = defineStore('exam_management', () => {
     question_series.value = data.question_series
     questions.value = data.questions
     answers.value = data.answers
+    answers_language_id.value = data.answers_language_id
     switch_question(0)
     // start time_left timer
     start_time.value = details_resource.data.session.candidate_started_on != null ? new Date(details_resource.data.session.candidate_started_on) : start_time.value
@@ -288,7 +290,17 @@ export const useExam = defineStore('exam_management', () => {
     // set coding question params
     if (question.type === 'coding') {
       available_languages.value = questions.value[question_series.value[index]].coding_question.available_languages
-      current_language.value = questions.value[question_series.value[index]].coding_question.available_languages[0].id
+      if (question.name in answers_language_id.value){
+        if(answers_language_id.value[question.name] === ''){
+          current_language.value = available_languages.value[0].id
+        } else {
+          current_language.value = answers_language_id.value[question.name]
+        }
+      } else {
+        current_language.value = available_languages.value[0].id
+      }
+    } else {
+      current_language.value = ''
     }
     current_question_index.value = index
   }
@@ -398,6 +410,7 @@ export const useExam = defineStore('exam_management', () => {
       url: 'kodex.api.submit_answer',
       onSuccess: async function () {
         answers.value[question] = answer
+        answers_language_id.value[question] = current_language.value
         next_question()
         is_answer_submitting.value = false;
         toast({
@@ -422,7 +435,8 @@ export const useExam = defineStore('exam_management', () => {
       exam_registration_name: details_resource.data.registration_name,
       auth_token: auth_token.value,
       question_name: current_question.value.name,
-      answer_base64: btoa(get_current_question_answer.value)
+      answer_base64: btoa(get_current_question_answer.value),
+      language_id: current_language.value
     })
     return request.promise
   }
