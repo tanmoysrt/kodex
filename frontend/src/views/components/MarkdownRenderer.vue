@@ -8,7 +8,10 @@ import MarkdownItSub from 'markdown-it-sub'
 import MarkdownItSup from 'markdown-it-sup'
 import MarkdownItTasklists from 'markdown-it-task-lists'
 
-const markdown = new MarkdownIt()
+const markdown = new MarkdownIt({
+  html: true,
+  typographer: true,
+})
   .use(MarkdownItAbbr)
   .use(MarkdownItAnchor)
   .use(MarkdownItFootnote)
