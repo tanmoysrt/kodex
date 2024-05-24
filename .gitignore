@@ -7,3 +7,9 @@ node_modules
 __pycache__
 .idea
 .idea/
+.vscode
+.vs
+
+# build /
+kodex/public/frontend
+kodex/www/kodex.html

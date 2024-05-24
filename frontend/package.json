@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build": "vite build --base=/assets/kodex/frontend/ && yarn copy-html-entry",
+    "copy-html-entry": "cp ../kodex/public/frontend/index.html ../kodex/www/kodex.html"
   },
   "dependencies": {
     "@codemirror/lang-cpp": "^6.0.2",

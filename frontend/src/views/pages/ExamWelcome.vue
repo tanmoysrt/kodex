@@ -1,16 +1,20 @@
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 import { Button } from 'frappe-ui'
 import MarkdownRenderer from '@/views/components/MarkdownRenderer.vue'
 import { useExam } from '@/store/exam'
 
 const route = useRoute()
+const router = useRouter()
 const examStore = useExam()
 
 onMounted(() => {
   if (!examStore.fetch_exam_registration_resource(route.params.info)) {
-    alert('Invalid')
+    router.push({
+      name: "Exam Invalid",
+      replace: true
+    })
   }
 })
 

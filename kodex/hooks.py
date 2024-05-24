@@ -55,6 +55,10 @@ app_license = "apache-2.0"
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
 
+website_route_rules = [
+	{"from_route": "/kodex/<path:app_path>", "to_route": "kodex"},
+]
+
 # Jinja
 # ----------
 

@@ -1,0 +1,23 @@
+{
+  "name": "kodex",
+  "description": "Open Source Examination Management System",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanmoysrt/kodex"
+  },
+  "homepage": "https://github.com/tanmoysrt/kodex",
+  "author": "tanmoysrt",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/tanmoysrt/kodex/issues"
+  },
+  "aworkspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "postinstall": "cd frontend && yarn install --check-files",
+    "dev": "cd frontend && yarn dev",
+    "build": "cd frontend && yarn build"
+  },
+  "dependencies": {}
+}
