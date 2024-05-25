@@ -53,3 +53,7 @@ def check_code_submission_results():
 				except Exception as e:
 					frappe.log_error("failed to update code runner status", message=e)
 			doc.save(ignore_permissions=True)
+
+# Part of hooks
+def clean_last_hour_record():
+	frappe.db.sql("delete from `tabCode Runner` where creation < (NOW() - INTERVAL 1 HOUR)")

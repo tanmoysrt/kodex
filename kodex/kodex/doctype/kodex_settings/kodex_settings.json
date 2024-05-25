@@ -5,7 +5,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "judge0_base_url"
+  "judge0_base_url",
+  "judge0_auth_token"
  ],
  "fields": [
   {
@@ -14,12 +15,18 @@
    "in_list_view": 1,
    "label": "Judge0 Base URL",
    "reqd": 1
+  },
+  {
+   "fieldname": "judge0_auth_token",
+   "fieldtype": "Data",
+   "label": "Judge0 Auth Token",
+   "not_nullable": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-14 21:40:32.059350",
+ "modified": "2024-05-25 21:25:25.066580",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Kodex Settings",

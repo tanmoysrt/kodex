@@ -145,7 +145,10 @@ scheduler_events = {
 		"* * * * *": [
 			"kodex.kodex.doctype.examination_candidate_registration.examination_candidate_registration.auto_submit_running_exams"
 		]
-	}
+	},
+	"hourly_long": [
+		"kodex.kodex.doctype.code_runner.code_runner.clean_last_hour_record"
+	]
 }
 
 fixtures = [

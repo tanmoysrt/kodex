@@ -4,10 +4,13 @@ import frappe
 
 def submit_question(code, language_id, stdin) -> [bool, str]:
 	try:
-		judge0_base_url = frappe.get_cached_value("Kodex Settings", "Kodex Settings", "judge0_base_url")
+		judge0_base_url = frappe.get_value("Kodex Settings", "Kodex Settings", "judge0_base_url")
+		judge0_auth_token = frappe.get_value("Kodex Settings", "Kodex Settings", "judge0_auth_token")
 		headers = {
-			"Content-Type": "application/json",
+			"Content-Type": "application/json"
 		}
+		if judge0_auth_token:
+			headers["X-Auth-Token"] = judge0_auth_token
 		data = {
 			"source_code": base64.b64encode(code.encode("utf-8")).decode("utf-8"),
 			"language_id": language_id,
@@ -27,9 +30,12 @@ def submit_question(code, language_id, stdin) -> [bool, str]:
 def fetch_submission_result(token) -> [bool, dict]:
 	try:
 		judge0_base_url = frappe.get_cached_value("Kodex Settings", "Kodex Settings", "judge0_base_url")
+		judge0_auth_token = frappe.get_cached_value("Kodex Settings", "Kodex Settings", "judge0_auth_token")
 		headers = {
 			"Content-Type": "application/json",
 		}
+		if judge0_auth_token:
+			headers["X-Auth-Token"] = judge0_auth_token
 		judge0_base_url = judge0_base_url.rstrip("/")
 		response = requests.get(f"{judge0_base_url}/submissions/{token}?base64_encoded=true&fields=stdout,stderr,time,memory,status,compile_output", headers=headers)
 		if response.status_code != 200:
