@@ -2,6 +2,10 @@
 
 Kodex is a frappe app that allows to host and manage examinations.
 
+
+
+
+
 ### Features
 
 - Create and manage questions
@@ -12,6 +16,8 @@ Kodex is a frappe app that allows to host and manage examinations.
   - Textual Questions
   - Multiple Choice Questions
   - Coding Questions
+- Support automated grading of submitted answers
+- Code runner support with Judge0
 
 
 ### Installation
