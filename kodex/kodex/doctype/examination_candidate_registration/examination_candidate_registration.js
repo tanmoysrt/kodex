@@ -30,5 +30,10 @@ frappe.ui.form.on("Examination Candidate Registration", {
 		frm.add_custom_button(__("Grade Examination"), function(){
 		    alert("Not implemented yet");
 		}, __("Actions"));
+
+    frm.add_custom_button(__("Grade test"), () => {
+      frm.call("grade_exam");
+    });
+
 	},
 });

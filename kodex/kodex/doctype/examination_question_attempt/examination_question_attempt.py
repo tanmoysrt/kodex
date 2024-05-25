@@ -4,6 +4,7 @@ import time
 
 import frappe
 from frappe.model.document import Document
+from kodex.kodex.doctype.code_runner.code_runner import CodeRunner
 
 
 class ExaminationQuestionAttempt(Document):
@@ -19,7 +20,6 @@ class ExaminationQuestionAttempt(Document):
 		if self.submitted_answer == "":
 			frappe.throw("Answer cannot be empty")
 
-	@frappe.whitelist()
 	def grade(self) -> bool:
 		if self.graded:
 			return True
@@ -39,16 +39,86 @@ class ExaminationQuestionAttempt(Document):
 			return False
 		elif question.type == "coding":
 			# Run the codes
-			test_cases = question.code_question_testset
-			# TODO fix this
-			# Try to fetch result each 3 seconds until unless it's failed/completed
-			pass
+			language_id = self.language_id
+			if not language_id:
+				is_correct = False
+			elif not self.submitted_answer:
+				is_correct = False
+			else:
+				test_cases = question.code_question_testset
+				code_runner_records = {}
+				for i in test_cases:
+					response = CodeRunner.run_code(self.submitted_answer, language_id, i.input)
+					code_runner_records[response[0]] = {
+						"expected_output": i.output,
+						"already_run": False,
+						"is_correct": False,
+					}
+				frappe.db.commit()
+
+				is_result_decided = False
+				code_runner_dumps = {}
+				while not is_result_decided:
+					time.sleep(1)
+					is_all_skipped = True
+					for r in code_runner_records:
+						if code_runner_records[r]["already_run"]:
+							continue
+						if r in code_runner_dumps:
+							result = code_runner_dumps[r]
+							result.reload()
+						else:
+							result = frappe.get_doc("Code Runner", r)
+							code_runner_dumps[r] = result
+						if result.status == "completed":
+							code_runner_records[r]["is_correct"] = result.output == code_runner_records[r]["expected_output"]
+							code_runner_records[r]["already_run"] = True
+							is_all_skipped = False
+						elif result.status == "failed":
+							code_runner_records[r]["is_correct"] = False
+							is_result_decided = True
+							is_all_skipped = False
+							break
+						else:
+							is_all_skipped = False
+					if is_all_skipped:
+						break
+
+				# calculate marks
+				is_correct = True
+				for r in code_runner_records:
+					is_correct = is_correct and code_runner_records[r]["is_correct"]
+
+				if is_correct:
+					marks = question.marks
 
 		self.graded = True
 		self.correct_answer = is_correct
 		self.marks = marks
+		self.max_marks = question.marks
 		self.save()
+		frappe.db.commit()
 		return True
+
+	@frappe.whitelist()
+	def grade_as_correct(self):
+		question = frappe.get_cached_doc("Question", self.question)
+		self.graded = True
+		self.correct_answer = True
+		self.max_marks = question.marks
+		self.marks = question.marks
+		self.save()
+		frappe.msgprint("Graded as correct", alert=True)
+
+	@frappe.whitelist()
+	def grade_as_incorrect(self):
+		question = frappe.get_cached_doc("Question", self.question)
+		self.graded = True
+		self.correct_answer = False
+		self.max_marks = question.marks
+		self.marks = 0
+		self.save()
+		frappe.msgprint("Graded as incorrect", alert=True)
 
 	@staticmethod
 	def record(exam_candidate_registration_name, question_name, answer, language_id):

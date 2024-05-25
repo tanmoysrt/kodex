@@ -11,9 +11,10 @@
   "language_id",
   "section_break_rbxt",
   "graded",
-  "column_break_usfa",
   "correct_answer",
-  "marks"
+  "column_break_usfa",
+  "marks",
+  "max_marks"
  ],
  "fields": [
   {
@@ -27,6 +28,7 @@
   {
    "fieldname": "marks",
    "fieldtype": "Float",
+   "in_list_view": 1,
    "label": "Marks"
   },
   {
@@ -39,6 +41,7 @@
    "default": "0",
    "fieldname": "correct_answer",
    "fieldtype": "Check",
+   "in_list_view": 1,
    "label": "Correct Answer"
   },
   {
@@ -57,6 +60,7 @@
    "default": "0",
    "fieldname": "graded",
    "fieldtype": "Check",
+   "in_list_view": 1,
    "label": "Graded"
   },
   {
@@ -68,11 +72,17 @@
    "fieldtype": "Data",
    "label": "Language ID",
    "not_nullable": 1
+  },
+  {
+   "fieldname": "max_marks",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Max Marks"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-25 00:03:07.945611",
+ "modified": "2024-05-25 21:06:01.190889",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Question Attempt",

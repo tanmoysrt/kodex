@@ -15,7 +15,13 @@ class ExaminationCandidateRegistration(Document):
         payload_base64 = base64.b64encode(json.dumps(payload).encode("utf-8")).decode(
             "utf-8"
         )
-        return f"{frappe.utils.get_url()}/exam/{payload_base64}"
+        return f"{frappe.utils.get_url()}/kodex/{payload_base64}"
+
+    @property
+    def percentage(self):
+        if self.total_marks == 0:
+            return 0
+        return (self.gained_marks / self.total_marks)*100
 
     def validate(self):
         if self.is_new():
@@ -118,10 +124,33 @@ class ExaminationCandidateRegistration(Document):
                 return [False, "Candidate has already submitted the exam"]
         return [True, "you are good to start the exam"]
 
-    def grade_exam(self):
-        # TODO: implement this
-        pass
 
+    @frappe.whitelist()
+    def grade_exam(self):
+        question_attempts_name = frappe.get_list("Examination Question Attempt",
+                                            filters={"examination_candidate_registration": self.name},
+                                            fields=["name"])
+        question_attempts_record = [frappe.get_doc("Examination Question Attempt", x.name) for x in question_attempts_name]
+        non_gradable_questions = []
+        for record in question_attempts_record:
+            is_graded = record.grade()
+            if not is_graded:
+                non_gradable_questions.append(record.question)
+        if len(non_gradable_questions) > 0:
+            frappe.msgprint(non_gradable_questions, title="Non Gradable Questions", as_list=True)
+            return
+
+        # check if all questions are graded
+        total_marks = 0
+        gained_marks = 0
+        for record in question_attempts_record:
+            total_marks += record.max_marks
+            gained_marks += record.marks
+        self.total_marks = total_marks
+        self.gained_marks = gained_marks
+        self.exam_graded = True
+        self.save()
+        frappe.msgprint(f"Total Marks: {total_marks}, Gained Marks: {gained_marks}", alert=True)
 
 @frappe.whitelist()
 def get_proctoring_images(exam_candidate_registration_name):
