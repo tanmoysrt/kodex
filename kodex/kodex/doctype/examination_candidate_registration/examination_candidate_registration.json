@@ -35,7 +35,9 @@
   {
    "fieldname": "examination",
    "fieldtype": "Link",
+   "in_filter": 1,
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Examination",
    "options": "Examination",
    "reqd": 1
@@ -43,7 +45,9 @@
   {
    "fieldname": "candidate",
    "fieldtype": "Link",
+   "in_filter": 1,
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Candidate",
    "options": "User",
    "reqd": 1
@@ -157,6 +161,9 @@
    "default": "0",
    "fieldname": "exam_graded",
    "fieldtype": "Check",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Exam Graded",
    "read_only": 1
   },
@@ -179,7 +186,7 @@
    "link_fieldname": "examination_candidate_registration"
   }
  ],
- "modified": "2024-05-25 21:15:24.227287",
+ "modified": "2024-05-25 21:19:53.998355",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Candidate Registration",
