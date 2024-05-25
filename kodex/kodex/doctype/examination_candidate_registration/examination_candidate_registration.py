@@ -152,6 +152,21 @@ class ExaminationCandidateRegistration(Document):
         self.save()
         frappe.msgprint(f"Total Marks: {total_marks}, Gained Marks: {gained_marks}", alert=True)
 
+    @frappe.whitelist()
+    def delete_proctoring_images(self):
+        files = frappe.get_list(
+            "File",
+            {
+                "attached_to_doctype": "Examination Candidate Registration",
+                "attached_to_name": self.name,
+            },
+            pluck="name",
+        )
+        for file in files:
+            frappe.delete_doc("File", file)
+        frappe.msgprint(f"Deleted {deleted} proctoring images", alert=True)
+
+
 @frappe.whitelist()
 def get_proctoring_images(exam_candidate_registration_name):
     return frappe.get_list(

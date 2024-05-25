@@ -23,17 +23,32 @@ frappe.ui.form.on("Examination Candidate Registration", {
 			});
 		}, __("Actions"));
 
-		frm.add_custom_button(__("Check Proctoring Images"), function(){
-			window.open(frappe.urllib.get_full_url(`/app/exam-proctoring-images?id=${frm.doc.name}`), "_blank");
-		}, __("Actions"));
-
 		frm.add_custom_button(__("Grade Examination"), function(){
-		    alert("Not implemented yet");
+			frappe.call({
+				method: "grade_exam",
+				doc: frm.doc,
+				args: {},
+				freeze: true,
+				freeze_message: __("Grading exam..."),
+				callback: function(r) {
+					if (r.exc) {
+						frappe.msgprint(r.exc);
+					} else {
+						frappe.msgprint(r.message);
+					}
+				},
+				error: function(r) {
+					frappe.msgprint(r.message);
+				}
+			});
 		}, __("Actions"));
 
-    frm.add_custom_button(__("Grade test"), () => {
-      frm.call("grade_exam");
-    });
+		frm.add_custom_button(__("View Proctoring Images"), function(){
+			window.open(frappe.urllib.get_full_url(`/app/exam-proctoring-images?id=${frm.doc.name}`), "_blank");
+		}, __("Proctoring Images"));
 
+		frm.add_custom_button(__("Delete Proctoring Images"), function(){
+			frm.call("delete_proctoring_images")
+		}, __("Proctoring Images"));
 	},
 });
