@@ -38,9 +38,6 @@ def get_examination_details(exam_registration_name, auth_token):
             "proctoring": {
                 "full_screen_mode": bool(exam_details.full_screen_mode),
                 "watermark_candidate_id": bool(exam_details.watermark_candidate_id),
-                "auto_submit_exam_on_focus_lose": bool(
-                    exam_details.auto_submit_exam_on_focus_lose
-                ),
                 "copy_paste_disabled": bool(exam_details.copy_paste_disabled),
                 "right_click_disabled": bool(exam_details.right_click_disabled),
                 "devtools_disabled": bool(exam_details.devtools_disabled),

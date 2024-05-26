@@ -19,6 +19,8 @@ class ExaminationCandidateRegistration(Document):
 
     @property
     def percentage(self):
+        if self.total_marks is None or self.gained_marks is None:
+            return 0
         if self.total_marks == 0:
             return 0
         return (self.gained_marks / self.total_marks)*100
