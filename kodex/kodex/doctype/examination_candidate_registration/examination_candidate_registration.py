@@ -166,7 +166,7 @@ class ExaminationCandidateRegistration(Document):
         )
         for file in files:
             frappe.delete_doc("File", file)
-        frappe.msgprint(f"Deleted {deleted} proctoring images", alert=True)
+        frappe.msgprint(f"Deleted {len(files)} proctoring images", alert=True)
 
 
 @frappe.whitelist()
