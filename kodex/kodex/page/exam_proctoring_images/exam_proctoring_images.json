@@ -7,9 +7,9 @@
  "modified": "2024-05-16 03:32:25.116288",
  "modified_by": "Administrator",
  "module": "Kodex",
- "name": "exam-proctoring-imag",
+ "name": "exam-proctoring-images",
  "owner": "Administrator",
- "page_name": "exam-proctoring-imag",
+ "page_name": "exam-proctoring-images",
  "roles": [
   {
    "role": "System Manager"
