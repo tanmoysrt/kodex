@@ -25,28 +25,7 @@ class ExaminationCandidateRegistration(Document):
             return 0
         return (self.gained_marks / self.total_marks)*100
 
-    def validate(self):
-        if self.is_new():
-            # check if no duplicate candidate is registered
-            if frappe.db.exists(
-                "Examination Candidate Registration",
-                {"candidate": self.candidate, "examination": self.examination},
-            ):
-                frappe.throw("Candidate is already registered")
-
     def before_save(self):
-        # Check if "Examination Candidate" role is exist in the user roles
-        candidate_record = frappe.get_doc("User", self.candidate)
-        isRoleFound = False
-        for record in candidate_record.roles:
-            if record.role == "Examination Candidate":
-                isRoleFound = True
-                break
-        if not isRoleFound:
-            candidate_record.append(
-                "roles", {"doctype": "Has Role", "role": "Examination Candidate"}
-            )
-            candidate_record.save()
         if not self.auth_token:
             self.auth_token = frappe.generate_hash(length=64)
 
@@ -55,13 +34,12 @@ class ExaminationCandidateRegistration(Document):
 
     @frappe.whitelist()
     def send_invitation(self):
-        candidate_record = frappe.get_doc("User", self.candidate)
         examination_record = frappe.get_doc("Examination", self.examination)
         email_template = frappe.get_doc(
             "Email Template", "Exam Registration Confirmation"
         )
         email_args = {
-            "candidate_name": candidate_record.first_name,
+            "candidate_name": self.candidate_name,
             "exam_name": examination_record.exam_name,
             "exam_duration": f"{self.login_window_minutes} minutes",
             "exam_start_time": frappe.utils.get_datetime(self.start_time).strftime(
@@ -73,7 +51,7 @@ class ExaminationCandidateRegistration(Document):
             "exam_url": self.exam_url,
         }
         frappe.sendmail(
-            recipients=[candidate_record.email],
+            recipients=[self.candidate_email_id],
             subject=email_template.get_formatted_subject(email_args),
             message=email_template.get_formatted_response(email_args),
             delayed=False,

@@ -6,9 +6,10 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "examination",
+  "candidate_name",
+  "candidate_email_id",
   "column_break_prdf",
-  "candidate",
+  "examination",
   "result_section",
   "grading_status",
   "column_break_ndvm",
@@ -40,16 +41,6 @@
    "in_standard_filter": 1,
    "label": "Examination",
    "options": "Examination",
-   "reqd": 1
-  },
-  {
-   "fieldname": "candidate",
-   "fieldtype": "Link",
-   "in_filter": 1,
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Candidate",
-   "options": "User",
    "reqd": 1
   },
   {
@@ -176,6 +167,23 @@
    "options": "not_graded\ngrading\ngraded",
    "read_only": 1,
    "reqd": 1
+  },
+  {
+   "fieldname": "candidate_name",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Candidate Name",
+   "not_nullable": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "candidate_email_id",
+   "fieldtype": "Data",
+   "label": "Candidate Email ID",
+   "not_nullable": 1,
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -185,7 +193,7 @@
    "link_fieldname": "examination_candidate_registration"
   }
  ],
- "modified": "2024-05-28 13:28:37.927276",
+ "modified": "2024-05-28 17:33:23.702975",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Candidate Registration",

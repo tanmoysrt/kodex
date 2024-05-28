@@ -16,7 +16,9 @@ def get_examination_details(exam_registration_name, auth_token):
         record.check_auth(auth_token)
         is_valid_to_start, message = record.validate_for_starting_exam()
         exam_details = frappe.get_cached_doc("Examination", record.examination)
-        candidate_details = frappe.get_cached_doc("User", record.candidate)
+        candidate_name = record.candidate_name
+        first_name = candidate_name.split(" ")[0] if candidate_name else ""
+        last_name = candidate_name.split(" ")[1] if candidate_name else ""
         return {
             "found": True,
             "registration_name": record.name,
@@ -27,13 +29,9 @@ def get_examination_details(exam_registration_name, auth_token):
                 "total_marks": exam_details.total_marks,
             },
             "candidate": {
-                "first_name": (
-                    candidate_details.first_name if candidate_details.first_name else ""
-                ),
-                "last_name": (
-                    candidate_details.last_name if candidate_details.last_name else ""
-                ),
-                "email": candidate_details.email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "email": record.candidate_email_id,
             },
             "proctoring": {
                 "full_screen_mode": bool(exam_details.full_screen_mode),
