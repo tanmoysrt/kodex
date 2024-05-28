@@ -13,7 +13,7 @@ Kodex is a frappe app that allows to host and manage technical examinations.
   - Multiple Choice Questions
   - Coding Questions
 - Support automated grading of submitted answers
-- Code runner support with Judge0
+- Code runner support with **Judge0**
 
 ### Previews
 
@@ -33,6 +33,9 @@ Kodex is a frappe app that allows to host and manage technical examinations.
 **Proctoring Config**
 ![Screenshot from 2024-05-25 23-10-16](https://github.com/tanmoysrt/kodex/assets/57363826/441142c7-9a67-4873-8a1f-6405e8c3cbe4)
 
+**Kodex Settings**
+![image](https://github.com/tanmoysrt/kodex/assets/57363826/81db91b6-838b-4632-aa93-bfb03a8e9c42)
+
 
 ### Installation
 
@@ -40,6 +43,7 @@ Kodex is a frappe app that allows to host and manage technical examinations.
 2. Open `Kodex Settings` from Desk Awesome bar
 3. Put the Judge0 endpoint and Judge0 Authentication Token
 4. Now, you can create questions and add them to the examination
+5. After that you can invite candidates for examination
 
 
 #### License
