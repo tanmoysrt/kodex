@@ -10,7 +10,7 @@
   "column_break_prdf",
   "candidate",
   "result_section",
-  "exam_graded",
+  "grading_status",
   "column_break_ndvm",
   "gained_marks",
   "column_break_tayr",
@@ -158,16 +158,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "0",
-   "fieldname": "exam_graded",
-   "fieldtype": "Check",
-   "in_filter": 1,
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Exam Graded",
-   "read_only": 1
-  },
-  {
    "fieldname": "column_break_gilb",
    "fieldtype": "Column Break"
   },
@@ -177,6 +167,15 @@
    "is_virtual": 1,
    "label": "Percentage",
    "read_only": 1
+  },
+  {
+   "default": "not_graded",
+   "fieldname": "grading_status",
+   "fieldtype": "Select",
+   "label": "Grading Status",
+   "options": "not_graded\ngrading\ngraded",
+   "read_only": 1,
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -186,7 +185,7 @@
    "link_fieldname": "examination_candidate_registration"
   }
  ],
- "modified": "2024-05-25 21:19:53.998355",
+ "modified": "2024-05-28 13:28:37.927276",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Examination Candidate Registration",

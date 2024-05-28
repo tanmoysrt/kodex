@@ -1,0 +1,101 @@
+{
+ "actions": [],
+ "creation": "2024-05-28 13:14:04.683221",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "examination_question_attempt",
+  "testcase_details_section",
+  "total_testcases_count",
+  "column_break_lkjo",
+  "successful_testcases_count",
+  "column_break_lakm",
+  "failed_testcases_count"
+ ],
+ "fields": [
+  {
+   "fieldname": "examination_question_attempt",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Examination Question Attempt",
+   "not_nullable": 1,
+   "options": "Examination Question Attempt",
+   "reqd": 1
+  },
+  {
+   "fieldname": "testcase_details_section",
+   "fieldtype": "Section Break",
+   "label": "Testcase details"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_testcases_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "is_virtual": 1,
+   "label": "Total Testcases",
+   "non_negative": 1,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_lkjo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "successful_testcases_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "is_virtual": 1,
+   "label": "Successful Testcases",
+   "non_negative": 1,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_lakm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "failed_testcases_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "is_virtual": 1,
+   "label": "Failed Testcases",
+   "non_negative": 1,
+   "read_only": 1,
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [
+  {
+   "link_doctype": "Code Runner",
+   "link_fieldname": "coding_question_grader"
+  }
+ ],
+ "modified": "2024-05-28 15:20:08.140348",
+ "modified_by": "Administrator",
+ "module": "Kodex",
+ "name": "Coding Question Grader",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

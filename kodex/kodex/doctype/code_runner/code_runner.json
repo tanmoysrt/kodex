@@ -21,7 +21,11 @@
   "for_debug_section",
   "debug_judge0_status_id",
   "column_break_jmdz",
-  "debug_judge0_status_description"
+  "debug_judge0_status_description",
+  "grading_related_section",
+  "correct",
+  "coding_question_grader",
+  "expected_output"
  ],
  "fields": [
   {
@@ -103,7 +107,7 @@
   },
   {
    "fieldname": "judge0_language_id",
-   "fieldtype": "Int",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Judge0 Language ID"
   },
@@ -126,11 +130,34 @@
    "fieldtype": "Data",
    "label": "Access Token",
    "not_nullable": 1
+  },
+  {
+   "fieldname": "grading_related_section",
+   "fieldtype": "Section Break",
+   "label": "Grading Related"
+  },
+  {
+   "fieldname": "expected_output",
+   "fieldtype": "Small Text",
+   "label": "Expected Output",
+   "not_nullable": 1
+  },
+  {
+   "fieldname": "coding_question_grader",
+   "fieldtype": "Link",
+   "label": "Coding Question Grader",
+   "options": "Coding Question Grader"
+  },
+  {
+   "default": "0",
+   "fieldname": "correct",
+   "fieldtype": "Check",
+   "label": "Correct"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-16 01:34:19.428373",
+ "modified": "2024-05-28 15:27:19.094784",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Code Runner",

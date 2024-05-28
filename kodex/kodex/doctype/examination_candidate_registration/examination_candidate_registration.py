@@ -133,26 +133,52 @@ class ExaminationCandidateRegistration(Document):
                                             filters={"examination_candidate_registration": self.name},
                                             fields=["name"])
         question_attempts_record = [frappe.get_doc("Examination Question Attempt", x.name) for x in question_attempts_name]
+
+        # Check textual questions
         non_gradable_questions = []
         for record in question_attempts_record:
-            is_graded = record.grade()
-            if not is_graded:
+            if not record.graded and record.question_type() == "text":
                 non_gradable_questions.append(record.question)
         if len(non_gradable_questions) > 0:
-            frappe.msgprint(non_gradable_questions, title="Non Gradable Questions", as_list=True)
+            frappe.msgprint(non_gradable_questions, title="Textual questions can't be graded", as_list=True)
             return
 
-        # check if all questions are graded
-        total_marks = 0
-        gained_marks = 0
+        # Check MCQ questions
+        mcq_questions_count = 0
         for record in question_attempts_record:
-            total_marks += record.max_marks
-            gained_marks += record.marks
-        self.total_marks = total_marks
-        self.gained_marks = gained_marks
-        self.exam_graded = True
+            if record.question_type() == "mcq":
+                mcq_questions_count += 1
+                record.grade_mcq()
+
+        # Check coding questions
+        coding_questions_count = 0
+        for record in question_attempts_record:
+            if record.question_type() == "coding":
+                coding_questions_count += 1
+                record.grade_coding_question_async()
+
+        if mcq_questions_count > 0 or coding_questions_count > 0:
+            frappe.msgprint(f"Graded {mcq_questions_count} MCQ questions and {coding_questions_count} coding questions enqueued for grading")
+            # set status
+            self.grading_status = "grading"
+            self.save()
+        else:
+            frappe.msgprint("No Question Attempts found to grade")
+
+    def check_for_grading(self):
+        pending_questions_for_grading_count = frappe.db.count("Examination Question Attempt", {
+            "examination_candidate_registration": self.name,
+            "graded": False
+        })
+        if pending_questions_for_grading_count > 0:
+            return
+        question_attempt = frappe.qb.DocType("Examination Question Attempt")
+        sum_marks = frappe.qb.functions("SUM", question_attempt.marks).as_("sum_marks")
+        result = frappe.qb.from_(question_attempt).where(question_attempt.examination_candidate_registration == self.name).select(sum_marks).run(as_dict=True)
+        self.gained_marks = result[0]["sum_marks"]
+        self.total_marks = frappe.get_doc("Examination", self.examination).total_marks
+        self.grading_status = "graded"
         self.save()
-        frappe.msgprint(f"Total Marks: {total_marks}, Gained Marks: {gained_marks}", alert=True)
 
     @frappe.whitelist()
     def delete_proctoring_images(self):

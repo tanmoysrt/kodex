@@ -16,6 +16,17 @@ class CodeRunner(Document):
 			self.status = "failed"
 			self.judge0_submission_id = ""
 
+	def before_save(self):
+		if self.status == "failed":
+			self.correct = False
+		elif self.status == "completed":
+			self.correct = self.output == self.expected_output
+
+	def on_update(self):
+		if self.coding_question_grader:
+			record = frappe.get_doc("Coding Question Grader", self.coding_question_grader)
+			record.check_grading_completion()
+
 	@staticmethod
 	def run_code(code, language_id, input) -> [str, str]:
 		doc = frappe.new_doc("Code Runner")
@@ -27,6 +38,16 @@ class CodeRunner(Document):
 		doc.judge0_language_id = language_id
 		doc.save(ignore_permissions=True)
 		return [doc.name, doc.access_token]
+
+	@staticmethod
+	def run_code_for_grading(code, language_id, input, expected_output, coding_question_grader):
+		doc = frappe.new_doc("Code Runner")
+		doc.code = code
+		doc.input = input
+		doc.judge0_language_id = language_id
+		doc.coding_question_grader = coding_question_grader
+		doc.expected_output = expected_output
+		doc.save(ignore_permissions=True)
 
 def check_code_submission_results():
 	submitted_codes = frappe.get_list("Code Runner", fields=["name", "judge0_submission_id"], filters={"status": "submitted"})
