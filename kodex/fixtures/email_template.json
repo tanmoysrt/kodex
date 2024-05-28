@@ -8,5 +8,15 @@
   "response_html": null,
   "subject": "Exam Registration Confirmation - {{ exam_name }}",
   "use_html": 0
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Email Template",
+  "modified": "2024-05-28 17:54:12.510081",
+  "name": "Exam Submission Confirmation",
+  "response": "<div class=\"ql-editor read-mode\"><h3>Hi 👋 {{ candidate_name }}</h3><p><br></p><p>Your submission has been received and your examination is complete. We will evaluate your responses and provide you with the result as soon as possible.</p><p><br></p><p>Thank You</p></div>",
+  "response_html": null,
+  "subject": "Exam Submission Confirmation  - {{ exam_name }}",
+  "use_html": 0
  }
 ]

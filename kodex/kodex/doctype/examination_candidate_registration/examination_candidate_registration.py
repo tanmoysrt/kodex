@@ -30,10 +30,16 @@ class ExaminationCandidateRegistration(Document):
             self.auth_token = frappe.generate_hash(length=64)
 
     def after_insert(self):
-        self.send_invitation()
+        kodex_settings = frappe.get_single("Kodex Settings")
+        if kodex_settings.send_email_on_exam_registration:
+            self.send_invitation()
 
     @frappe.whitelist()
     def send_invitation(self):
+        frappe.enqueue_doc("Examination Candidate Registration", self.name, method="_send_invitation")
+        frappe.msgprint("Exam invitation e-mail will be send soon.")
+
+    def _send_invitation(self):
         examination_record = frappe.get_doc("Examination", self.examination)
         email_template = frappe.get_doc(
             "Email Template", "Exam Registration Confirmation"
@@ -68,6 +74,7 @@ class ExaminationCandidateRegistration(Document):
         self.exam_ended = True
         self.exam_ended_on = frappe.utils.get_datetime()
         self.save(ignore_permissions=True)
+        self.send_exam_submission_email()
 
     def end_exam_due_to_malpractice(self, reason):
         if not self.exam_started_on:
@@ -77,6 +84,28 @@ class ExaminationCandidateRegistration(Document):
         self.ended_due_to_malpractice = True
         self.malpractice_info = reason
         self.save(ignore_permissions=True)
+        self.send_exam_submission_email()
+
+    def send_exam_submission_email(self):
+        frappe.enqueue_doc("Examination Candidate Registration", self.name, method="_send_exam_submission_email")
+
+    def _send_exam_submission_email(self):
+        kodex_settings = frappe.get_single("Kodex Settings")
+        if kodex_settings.send_email_on_exam_submission:
+            examination_record = frappe.get_doc("Examination", self.examination)
+            email_template = frappe.get_doc(
+                "Email Template", "Exam Submission Confirmation"
+            )
+            email_args = {
+                "candidate_name": self.candidate_name,
+                "exam_name": examination_record.exam_name,
+            }
+            frappe.sendmail(
+                recipients=[self.candidate_email_id],
+                subject=email_template.get_formatted_subject(email_args),
+                message=email_template.get_formatted_response(email_args),
+                delayed=False,
+            )
 
     def check_auth(self, auth_token):
         if auth_token != self.auth_token:

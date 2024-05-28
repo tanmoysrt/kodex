@@ -5,8 +5,13 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "judge0_details_section",
   "judge0_base_url",
-  "judge0_auth_token"
+  "column_break_wwgc",
+  "judge0_auth_token",
+  "email_configurations_section",
+  "send_email_on_exam_registration",
+  "send_email_on_exam_submission"
  ],
  "fields": [
   {
@@ -21,12 +26,38 @@
    "fieldtype": "Data",
    "label": "Judge0 Auth Token",
    "not_nullable": 1
+  },
+  {
+   "fieldname": "judge0_details_section",
+   "fieldtype": "Section Break",
+   "label": "Judge0 Details"
+  },
+  {
+   "fieldname": "column_break_wwgc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "email_configurations_section",
+   "fieldtype": "Section Break",
+   "label": "Email Configurations"
+  },
+  {
+   "default": "1",
+   "fieldname": "send_email_on_exam_registration",
+   "fieldtype": "Check",
+   "label": "Send Email on Exam Registration"
+  },
+  {
+   "default": "1",
+   "fieldname": "send_email_on_exam_submission",
+   "fieldtype": "Check",
+   "label": "Send Email on Exam Submission"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-25 21:25:25.066580",
+ "modified": "2024-05-28 17:42:52.786945",
  "modified_by": "Administrator",
  "module": "Kodex",
  "name": "Kodex Settings",

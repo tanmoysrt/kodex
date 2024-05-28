@@ -152,7 +152,7 @@ scheduler_events = {
 }
 
 fixtures = [
-	{"dt": "Email Template", "filters": [["name", "in", ["Exam Registration Confirmation"]]]},
+	{"dt": "Email Template", "filters": [["name", "in", ["Exam Registration Confirmation", "Exam Submission Confirmation"]]]},
 	{"dt": "Workspace", "filters": [["name", "in", ["Kodex"]]]},
 ]
 
