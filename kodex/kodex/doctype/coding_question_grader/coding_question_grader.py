@@ -40,7 +40,6 @@ class CodingQuestionGrader(Document):
 				CodeRunner.run_code_for_grading(question_attempt.submitted_answer,question_attempt.language_id, test.input, test.output, self.name)
 
 	def check_grading_completion(self):
-		frappe.log_error(f"checking grading completion {self.total_testcases_count} {self.successful_testcases_count} {self.failed_testcases_count}")
 		if self.total_testcases_count == self.successful_testcases_count + self.failed_testcases_count:
 			examination_question_attempt = frappe.get_doc("Examination Question Attempt", self.examination_question_attempt)
 			examination_question_attempt.graded = True

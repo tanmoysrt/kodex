@@ -23,7 +23,7 @@ class ExaminationCandidateRegistration(Document):
             return 0
         if self.total_marks == 0:
             return 0
-        return (self.gained_marks / self.total_marks)*100
+        return (self.gained_marks / self.total_marks) * 100
 
     def before_save(self):
         if not self.auth_token:
@@ -36,7 +36,9 @@ class ExaminationCandidateRegistration(Document):
 
     @frappe.whitelist()
     def send_invitation(self):
-        frappe.enqueue_doc("Examination Candidate Registration", self.name, method="_send_invitation")
+        frappe.enqueue_doc(
+            "Examination Candidate Registration", self.name, method="_send_invitation"
+        )
         frappe.msgprint("Exam invitation e-mail will be send soon.")
 
     def _send_invitation(self):
@@ -87,7 +89,11 @@ class ExaminationCandidateRegistration(Document):
         self.send_exam_submission_email()
 
     def send_exam_submission_email(self):
-        frappe.enqueue_doc("Examination Candidate Registration", self.name, method="_send_exam_submission_email")
+        frappe.enqueue_doc(
+            "Examination Candidate Registration",
+            self.name,
+            method="_send_exam_submission_email",
+        )
 
     def _send_exam_submission_email(self):
         kodex_settings = frappe.get_single("Kodex Settings")
@@ -133,13 +139,17 @@ class ExaminationCandidateRegistration(Document):
                 return [False, "Candidate has already submitted the exam"]
         return [True, "you are good to start the exam"]
 
-
     @frappe.whitelist()
     def grade_exam(self):
-        question_attempts_name = frappe.get_list("Examination Question Attempt",
-                                            filters={"examination_candidate_registration": self.name},
-                                            fields=["name"])
-        question_attempts_record = [frappe.get_doc("Examination Question Attempt", x.name) for x in question_attempts_name]
+        question_attempts_name = frappe.get_list(
+            "Examination Question Attempt",
+            filters={"examination_candidate_registration": self.name},
+            fields=["name"],
+        )
+        question_attempts_record = [
+            frappe.get_doc("Examination Question Attempt", x.name)
+            for x in question_attempts_name
+        ]
 
         # Check textual questions
         non_gradable_questions = []
@@ -147,7 +157,11 @@ class ExaminationCandidateRegistration(Document):
             if not record.graded and record.question_type() == "text":
                 non_gradable_questions.append(record.question)
         if len(non_gradable_questions) > 0:
-            frappe.msgprint(non_gradable_questions, title="Textual questions can't be graded", as_list=True)
+            frappe.msgprint(
+                non_gradable_questions,
+                title="Textual questions can't be graded",
+                as_list=True,
+            )
             return
 
         # Check MCQ questions
@@ -155,33 +169,62 @@ class ExaminationCandidateRegistration(Document):
         for record in question_attempts_record:
             if record.question_type() == "mcq":
                 mcq_questions_count += 1
-                record.grade_mcq()
 
         # Check coding questions
         coding_questions_count = 0
         for record in question_attempts_record:
             if record.question_type() == "coding":
                 coding_questions_count += 1
-                record.grade_coding_question_async()
 
         if mcq_questions_count > 0 or coding_questions_count > 0:
-            frappe.msgprint(f"Graded {mcq_questions_count} MCQ questions and {coding_questions_count} coding questions enqueued for grading")
+            frappe.msgprint(
+                f"Graded {mcq_questions_count} MCQ questions and {coding_questions_count} coding questions enqueued for grading"
+            )
             # set status
             self.grading_status = "grading"
             self.save()
+            self.grade_questions()
         else:
             frappe.msgprint("No Question Attempts found to grade")
 
+    def grade_questions(self):
+        frappe.enqueue_doc("Examination Candidate Registration", self.name, method="_grade_questions")
+
+    def _grade_questions(self):
+        question_attempts_name = frappe.get_list(
+            "Examination Question Attempt",
+            filters={"examination_candidate_registration": self.name},
+            fields=["name"],
+        )
+        question_attempts_record = [
+            frappe.get_doc("Examination Question Attempt", x.name)
+            for x in question_attempts_name
+        ]
+        # Check MCQ questions
+        for record in question_attempts_record:
+            if record.question_type() == "mcq":
+                record.grade_mcq()
+
+        # Check coding questions
+        for record in question_attempts_record:
+            if record.question_type() == "coding":
+                record.grade_coding_question_async()
+
     def check_for_grading(self):
-        pending_questions_for_grading_count = frappe.db.count("Examination Question Attempt", {
-            "examination_candidate_registration": self.name,
-            "graded": False
-        })
+        pending_questions_for_grading_count = frappe.db.count(
+            "Examination Question Attempt",
+            {"examination_candidate_registration": self.name, "graded": False},
+        )
         if pending_questions_for_grading_count > 0:
             return
         question_attempt = frappe.qb.DocType("Examination Question Attempt")
         sum_marks = frappe.qb.functions("SUM", question_attempt.marks).as_("sum_marks")
-        result = frappe.qb.from_(question_attempt).where(question_attempt.examination_candidate_registration == self.name).select(sum_marks).run(as_dict=True)
+        result = (
+            frappe.qb.from_(question_attempt)
+            .where(question_attempt.examination_candidate_registration == self.name)
+            .select(sum_marks)
+            .run(as_dict=True)
+        )
         self.gained_marks = result[0]["sum_marks"]
         self.total_marks = frappe.get_doc("Examination", self.examination).total_marks
         self.grading_status = "graded"
@@ -213,17 +256,27 @@ def get_proctoring_images(exam_candidate_registration_name):
         pluck="file_url",
     )
 
+
 def auto_submit_running_exams():
     """
     Auto submit exams if after exam, user has not submitted and the exam is over in meantime
     """
     try:
-        running_exams = frappe.get_list("Examination Candidate Registration",
-                                        filters={"exam_started_on": ["is", "set"], "exam_ended_on": ["is", "not set"]}, fields=["name", "exam_started_on", "login_window_minutes"])
+        running_exams = frappe.get_list(
+            "Examination Candidate Registration",
+            filters={
+                "exam_started_on": ["is", "set"],
+                "exam_ended_on": ["is", "not set"],
+            },
+            fields=["name", "exam_started_on", "login_window_minutes"],
+        )
         for exam in running_exams:
-            if frappe.utils.get_datetime() >= frappe.utils.get_datetime(exam.exam_started_on) + datetime.timedelta(
-                    minutes=exam.login_window_minutes) :
-                exam_record = frappe.get_doc("Examination Candidate Registration", exam.name)
+            if frappe.utils.get_datetime() >= frappe.utils.get_datetime(
+                exam.exam_started_on
+            ) + datetime.timedelta(minutes=exam.login_window_minutes):
+                exam_record = frappe.get_doc(
+                    "Examination Candidate Registration", exam.name
+                )
                 exam_record.end_exam()
     except Exception as e:
         frappe.log_error(f"Error auto submitting running exams", message=e)
