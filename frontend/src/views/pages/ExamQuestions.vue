@@ -41,6 +41,45 @@ const onSelectResizer = () => {
 const openSubmitDialog = () => {
   examSubmissionDialogOpen.value = true
 }
+
+const visibleQuestionIndices = computed(() => {
+  const total = examStore.question_series.length
+  const current = examStore.current_question_index
+  const delta = 6
+
+  let start = current - delta
+  let end = current + delta
+
+  // Shift window right if it goes past the left edge
+  if (start < 0) {
+    end -= start
+    start = 0
+  }
+  // Shift window left if it goes past the right edge
+  if (end >= total) {
+    start -= (end - total + 1)
+    end = total - 1
+    start = Math.max(0, start)
+  }
+
+  const range = new Set()
+  range.add(0)
+  range.add(total - 1)
+  for (let i = start; i <= end; i++) {
+    range.add(i)
+  }
+
+  const sorted = Array.from(range).sort((a, b) => a - b)
+
+  const result = []
+  for (let i = 0; i < sorted.length; i++) {
+    if (i > 0 && sorted[i] - sorted[i - 1] > 1) {
+      result.push(null)
+    }
+    result.push(sorted[i])
+  }
+  return result
+})
 </script>
 
 <template>
@@ -124,17 +163,20 @@ const openSubmitDialog = () => {
       </div>
     </div>
     <!--  Question Switcher  -->
-    <div class="flex flex-row items-center justify-center w-full max-w-full gap-3 py-1 mt-4 overflow-hidden">
+    <div class="flex flex-row items-center justify-center w-full gap-3 py-1 mt-4">
       <Button icon-left="arrow-left" variant="outline" @click="examStore.previous_question"
         :disabled="!examStore.previous_question_button_enbaled">Previous</Button>
-      <div v-for="(_, index) in examStore.question_series" :key="index" :class="{
-        '!border-2 border-black': examStore.current_question_index === index,
-        '!border-2 border-green-500': examStore.answers[examStore.question_series[index]] !== undefined && examStore.current_question_index !== index
-      }"
-        class="flex items-center justify-center h-full text-base transition-all border rounded-sm cursor-pointer aspect-square"
-        @click="examStore.switch_question(index)">
-        {{ index + 1 }}
-      </div>
+      <template v-for="(item, i) in visibleQuestionIndices" :key="i">
+        <span v-if="item === null" class="w-6 text-center text-gray-400 select-none">…</span>
+        <div v-else :class="{
+          '!border-2 border-black': examStore.current_question_index === item,
+          '!border-2 border-green-500': examStore.answers[examStore.question_series[item]] !== undefined && examStore.current_question_index !== item
+        }"
+          class="flex items-center justify-center w-8 h-8 text-sm transition-all border rounded-sm cursor-pointer shrink-0"
+          @click="examStore.switch_question(item)">
+          {{ item + 1 }}
+        </div>
+      </template>
       <Button icon-right="arrow-right" variant="outline" @click="examStore.next_question"
         :disabled="!examStore.next_question_button_enabled">Next</Button>
     </div>
